@@ -7,8 +7,9 @@ excerpt: vector, matrix, variables, NA
 ## Managing data
 
 * seq(pi,9) : sequence of numbers
-* seq_along(xx), seq(alongwith=xx) : sequence mimics
-  * rep(0, times = xx) : repeats a number
+  * seq_along(xx), seq(alongwith=xx) : sequence mimics
+  * seq(-10,10,length.out=100)  : length 100
+* rep(0, times = xx) : repeats a number
   * rep(c(0,1,2), times = 10)
   * rep(c(0, 1, 2), each = 10)
 * paste(my_char, collapse = " ") : concatenates strings
