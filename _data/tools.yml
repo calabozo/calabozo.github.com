@@ -1,0 +1,78 @@
+
+- name: R statistic platform 
+  img: https://www.r-project.org/Rlogo.png
+  url: https://www.r-project.org/
+  license: 
+  desc: Very good for graphics and plots.
+  tutorial: 
+   url: r/index.html
+   desc: Useful commands
+  links:
+   - name: StatET
+     url: http://www.walware.de/goto/statet
+     desc: Eclipse plugin
+   - name: R-studio
+     url: https://www.rstudio.com/
+     desc: IDE for R
+
+- name: Python 
+  img: img/python.png 
+  url: https://www.python.org/
+  desc: Easy to learn programming language.
+  links:
+   - name: Rodeo Desktop
+     url: https://github.com/yhat/rodeo
+     desc: IDE for datascience in Python
+   - name: Numpy
+     url: https://www.rstudio.com/
+     desc: Fundamental package por scientific computing
+     
+- name: Hadoop
+  img: img/Hadoop.png
+  url: http://hadoop.apache.org/
+  desc: The Apache Hadoop software library is a framework that allows for the distributed processing of large data sets across clusters of computers using simple programming models. It is designed to scale up from single servers to thousands of machines, each offering local computation and storage. Rather than rely on hardware to deliver high-availability, the library itself is designed to detect and handle failures at the application layer, so delivering a highly-available service on top of a cluster of computers, each of which may be prone to failures.
+
+- name: Spark
+  img: img/spark.png
+  url: http://spark.apache.org/ 
+  desc: Apache Spark is a fast and general engine for large-scale data processing. Run programs up to 100x faster than Hadoop MapReduce in memory, or 10x faster on disk. Apache Spark has an advanced DAG execution engine that supports cyclic data flow and in-memory computing. Write applications quickly in Java, Scala, Python, R.
+
+- name: Lucene
+  url: http://lucene.apache.org/
+  img: img/lucene.png
+  desc: Provides Java-based indexing and search technology, as well as spellchecking, hit highlighting and advanced analysis/tokenization capabilities.
+
+- name: Elasticsearch
+  url: https://www.elastic.co/products/elasticsearch
+  img: img/elasticseach.svg
+  desc: Elasticsearch is a distributed RESTful search engine built for the cloud. It is build on top of Lucene. Elasticsearch lets you perform and combine many types of searches — structured, unstructured, geo, metric — any way you want. Start simple with one question and see where it takes you. Elasticsearch aggregations let you zoom out to explore trends and patterns in your data.
+
+- name: Kibana
+  url: https://www.elastic.co/products/kibana
+  img: img/kibana.svg
+  desc: Kibana lets you visualize your Elasticsearch data and navigate the Elastic Stack. It gives you the freedom to select the way you give shape to your data with its interactive visualizations. Kibana core ships with the classic histograms, line graphs, pie charts, sunbursts, and more. They leverage the full aggregation capabilities of Elasticsearch.
+
+- name: Zeppeling
+  url: https://zeppelin.apache.org/
+  img: img/zeppelin.svg
+  desc: A web-based notebook that enables interactive data analytics. You can make beautiful data-driven, interactive and collaborative documents with SQL, Scala, Python, R and more.
+
+- name: Jupyter
+  url: http://jupyter.org/
+  img: img/Jupyter.jpg
+  desc: Probably the most used notebook in datamining, the succesor of Iphyton. The Jupyter Notebook is a web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text.
+  links:
+   - name: IPython
+     url: https://ipython.org/
+     desc: IPython itself is focused on interactive Python, part of which is providing a Python kernel for Jupyter.
+
+- name: Beaker
+  url: http://beakernotebook.com/
+  img: img/beaker.png
+  desc: Notebook-style development provides a more exploratory way to write code than with traditional IDEs. Beaker’s individual cells support different languages within the same notebook and allow you to pass data from one cell to another - e.g. Python to R to JavaScript - seamlessly.
+  links:
+   - name: D3.js
+     url: https://d3js.org/
+     desc: D3.js is a JavaScript library for manipulating documents based on data. I can be used with Beaker. 
+
+

@@ -1,0 +1,16 @@
+# Site navigation links
+
+- title: About
+  url: /about/
+
+- title: Statistics
+  url: /statistics/
+
+- title: Machine Learning
+  url: /ml/
+
+- title: Tools 
+  url: /tools/
+
+- title: Search
+  url: /search/
