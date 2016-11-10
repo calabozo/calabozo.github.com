@@ -23,6 +23,13 @@ excerpt: vector, matrix, variables, NA
 * reorder(x, y) : By default treats its first argument as a categorical variable, and reorders its levels based on the values of a second variable
 * which(x>0) : Give the ‘TRUE’ indices of a logical object, allowing for array indices.
 
+## Working with strings
+
+* substr(x, start, stop): Extract or replace substrings in a character vector
+* strsplit(ip, "\\.")  : Split the elements of a character vector ‘x’ into substrings according to the matches to substring ‘split’ within them.
+  * sapply(strsplit(listOfemails,"@"),"[",2)
+ 
+
 ## Inspecting variables
 * attributes(x) : Shows object's attributes
 * names(x) : Shows object's names

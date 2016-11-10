@@ -9,8 +9,23 @@ title: Machine learning algorithms
 
 Please go to [here](linear_regression)
 
+## Regression Decission Tree
+
 
 # Classification
+
+## Classification Decission Tree
+
+Creates a model that predicts the value of the output variable based on the output.
+Several decision trees are computed, the classification is done given the classification of all the different trees.
+
+About Gini
+http://stats.stackexchange.com/questions/92419/relative-importance-of-a-set-of-predictors-in-a-random-forests-classification-in
+
+
+### Random Forest
+
+http://www.listendata.com/2014/11/random-forest-with-r.html
 
 
 ## Logistic regression model
@@ -46,3 +61,11 @@ To minimize this fuction we can apply gradient descent:
 \Theta_j = \Theta_j - \alpha  = \Theta_j - \alpha \sum{(h_\Theta(x^{(i)})-y^{(i)})·x^{(i)}}
 \\]
 
+
+'''
+library(ROCR)
+p <- predict(model, newdata=subset(test,select=c(2,3,4,5,6,7,8)), type="response")
+pr <- prediction(p, test$Survived)
+prf <- performance(pr, measure = "tpr", x.measure = "fpr")
+plot(prf)
+'''

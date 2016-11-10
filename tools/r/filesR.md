@@ -17,6 +17,13 @@ classes <- sapply(initial, class)
 data <- read.table("file.txt", colClasses= classes)
 ```
 
+To use a different time format
+```
+setAs("character","myDate", function(from) strptime(from, format="%H:%M:%S %d/%m/%Y") )
+classes$V2 <- "myDate"
+data <- read.table("file.txt", colClasses= classes)
+```
+
 ## File management
 
 * getwd : get working directory.

@@ -3,6 +3,30 @@ layout: default
 title: Useful links
 ---
 
+
+# General
+
+##Hitchhiker's Guide to Data Science, Machine Learning, R, Python
+
+General purpose datascience material:
+
+http://www.datasciencecentral.com/profiles/blogs/hitchhiker-s-guide-to-data-science-machine-learning-r-python
+
+
+# Datamining
+
+http://www.stat.cmu.edu/~cshalizi/350-2006/
+
+## Comprehensive list of data science resources
+
+General list of resources
+
+http://www.datasciencecentral.com/group/resources/forum/topics/comprehensive-list-of-data-science-resources
+
+
+
+
+
 # R and Matlab
 
 https://cran.r-project.org/doc/contrib/R-and-octave.txt
@@ -29,3 +53,12 @@ http://www.sthda.com/english/wiki/r-software
 * R Basics: Quick and Easy
 * R packages
 * Text mining
+
+
+## Libraries
+
+[Missing data MICE packet](http://datascienceplus.com/imputing-missing-data-with-r-mice-package/)
+
+
+
+
