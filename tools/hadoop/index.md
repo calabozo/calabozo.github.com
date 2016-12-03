@@ -36,7 +36,7 @@ It connects to other nodes by ssh, so we need to create public and private keys 
 It is necessary to configure the default port where the Name Node will listen for commands. By default this port is 9000. 
 
 *./etc/hadoop/core-site.xml*
-```
+```xml
 <configuration>
     <property>
        <name>fs.defaultFS</name>
@@ -47,11 +47,11 @@ It is necessary to configure the default port where the Name Node will listen fo
 
 If we are goint to use only one node then we must override the default dfs replication which is 2. So to define the value one, update the file *hdfs-site.xml*
 
-*./etc/hdfs-site.xml*
-```
+*./etc/hadoop/hdfs-site.xml*
+```xml
 <configuration>
     <property>
-       <name>dfs.replication/name>
+       <name>dfs.replication</name>
        <value>1</value>
     </property>
 </configuration>
@@ -69,6 +69,8 @@ Start the name node, data node and secondary name node:
 ```
 ./sbin/start-dfs.sh
 ```
+If you have not properly set up the JAVA_HOME environment variable an error will appear. You can add it or update the file *./etc/hadoop/hadoop-env.sh* and configure it.
+
 
 All Hadoop process are executed in a JVN, so to check that all services are running just invoque jps:
 ```
@@ -84,6 +86,7 @@ Many linux distributios support hdfs in the kernel.
 Also there is a HTTP web service in the namenode where it is possible to browse the cotent of the HDF.
 By default it is in the port 50070 or 9000 depending on the hadoop version.
 
+http://localhost:50070/
 
 
 #### File managing

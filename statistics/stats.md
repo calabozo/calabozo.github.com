@@ -143,4 +143,32 @@ Does not require the homogeneity of variances asumption
 Does not require Gaussian the assumption.
 
 
+## Frequency tables
+
+### Chi-square
+
+The Chi-square test can also be used to test for independence between two variables
+* The null hypothesis for this test is that the variables are independent (i.e. that there is no statistical association).
+* The alternative hypothesis is that there is a statistical relationship or association between the two variables.
+
+The Chi-square test can be used to test for equality of proportions between two or more groups.
+* The null hypothesis for this test is that the 2 proportions are equal.
+* The alternative hypothesis is that the proportions are not equal (test for a difference in either direction)
+
+Then Pearson's chi-squared test is performed
+     of the null hypothesis that the joint distribution of the cell
+     counts in a 2-dimensional contingency table is the product of the
+     row and column marginals.
+
+### Yates 
+
+
+### Fisher
+
+Fisher's exact test, as its name implies, always gives an exact P value and works fine with small sample sizes. Fisher's test (unlike chi-square) is very hard to calculate by hand, but is easy to compute with a computer. 
+
+### Barnard 
+
+An alternative to Fisher's test is the Barnard test. Fisher's test is said to be 'conditional' on the row and column totals, while Barnard's test is not. Mehta and Senchaudhuri explain the difference and why Barnard's test has more power (2). Berger modified this test to one that is easier to calculate yet more powerful. 
+
 

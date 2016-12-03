@@ -12,3 +12,5 @@ title: Useful R commands
 
 [Graphics](graphicsR)
 
+
+[Congiguration](configurationR)
