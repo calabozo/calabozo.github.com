@@ -46,6 +46,8 @@ excerpt: vector, matrix, variables, NA
 * str(x) : Shows internal structure of the object
 * object.size(x) : Provides an estimate of the memory that is being used to store an R object
   * sapply(ls(),function(x){format(object.size(get(x)),units="Mb")}) : Show all the object size in Megabytes
+* ls(pattern=X) : Finds variables that match the regex pattern X
+
 
 
 ## Working with NA

@@ -74,7 +74,7 @@ The mean is 7.283274 with an error of ±1.000087
 
 For the same variance this confidence interval is larger than the one obtained with gaussian.
 
-## 1.2. Comparing two groups of data
+## 1.2. Comparing two groups quantitative of data
 
 ### Student's t-test
 
@@ -270,7 +270,7 @@ The Fisher [F-Test](https://en.wikipedia.org/wiki/F-test_of_equality_of_variance
 The test statistic is based on the cocient of the two variances:
 \\[F=\frac{Var[X]}{Var[Y]}\\]
 
-this follows an [F-distribution](https://en.wikipedia.org/wiki/F-distribution) with $$n_x-1$$ and $$n_y$$ degrees of freedom.
+this follows an [F-distribution](https://en.wikipedia.org/wiki/F-distribution) with $$n_x-1$$ and $$n_y-1$$ degrees of freedom.
 
 ```R
 > nx<-10
@@ -298,6 +298,11 @@ ratio of variances
 
 ```
 Thus in this case with a p-value of 0.6924 we can accept the null hypotesis and assume that the two variances are homogeneous.
+
+
+## 1.3. Comparing two groups of categorical data
+
+
 
 
 ## 1.3. Comparing several groups of data
@@ -367,7 +372,7 @@ Does not require the homogeneity of variances asumption
 Does not require Gaussian the assumption.
 
 
-## 1.4. Frequency tables
+## 1.4. Contingency tables
 
 ### Chi-square
 
@@ -391,8 +396,19 @@ Then Pearson's chi-squared test is performed
 
 Fisher's exact test, as its name implies, always gives an exact P value and works fine with small sample sizes. Fisher's test (unlike chi-square) is very hard to calculate by hand, but is easy to compute with a computer. 
 
+
+
+
 ### Barnard 
 
 An alternative to Fisher's test is the Barnard test. Fisher's test is said to be 'conditional' on the row and column totals, while Barnard's test is not. Mehta and Senchaudhuri explain the difference and why Barnard's test has more power (2). Berger modified this test to one that is easier to calculate yet more powerful. 
 
+
+
+## 1.5 Survival distributions
+
+
+### Log-rank test
+
+In statistics, the log-rank test is a hypothesis test to compare the survival distributions of two samples. It is a nonparametric test and appropriate to use when the data are right skewed and censored (technically, the censoring must be non-informative).
 

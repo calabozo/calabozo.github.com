@@ -15,6 +15,7 @@ This is a personal blog used to keep simple notes about data science.
 * [Tools](/tools/) 
 * [R](/tools/r/index.html)
 * [Machine Learning](/ml/)
+* [Easy Datamining](/home/easy/)
 
 
 [^1]: Example: *domain.com/category-name/post-title*

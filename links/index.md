@@ -24,6 +24,9 @@ General list of resources
 http://www.datasciencecentral.com/group/resources/forum/topics/comprehensive-list-of-data-science-resources
 
 
+# Artificial Intelligence
+
+http://news.microsoft.com/ai/
 
 
 
