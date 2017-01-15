@@ -70,7 +70,7 @@ The *survival function* and the *density function* can both be calculated solvin
 \\[f(t)=-\frac{\partial}{\partial t}S(t)=\lambda·e^{-\lambda t}\\]
 
 Always for $$\lambda> 0,t\geq 0 $$. 
-The [poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution) express the possibiility of a given number of efents ocurring in a fixed time interval if these events occur with a known time indepentend average (this time independent means exponential distribution). This means that the time that happens between events which are following a *poisson distribution*.
+The [poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution) express the possibility of a given number of events occurring in a fixed time interval if these events occur with a known time independent average (this time independent means exponential distribution). This means that the time that happens between events which are following a *poisson distribution* follows an *exponential distribution*.
 
 
 ### Rayleigh distribution
@@ -104,11 +104,11 @@ where $$k$$ is the shape parameter and $$1/\lambda$$ is the scale parameter of t
 
 ### Weibull estimation
 
-Imagine that we want to simulate the decay of a radioactive sample which its [half-life](https://en.wikipedia.org/wiki/Half-life) is 10s, this implies that the decay constant is $$\lambda=\frac{ln(2)}{t_{1/2}}=0.06931$$. We can simulate the time it takes to an event to happen with the exponential probabilitistic function in R:
+Imagine that we want to simulate the decay of a radioactive sample which its [half-life](https://en.wikipedia.org/wiki/Half-life) is 10s, this implies that the decay constant is $$\lambda=\frac{ln(2)}{t_{1/2}}=0.06931$$. We can simulate the time it takes to an event to happen with the exponential probabilistic function in R:
 ```R
 > df<-data.frame(interval=rexp(100,rate=log(2)/10),event=1)
 ```
-Then we can plot the survival function, that is the percentage of original elemets that we have after t seconds:
+Then we can plot the survival function, that is the percentage of original elements that we have after t seconds:
 ```R
 > library(eha)
 > plot(Surv(df$interval,df$event),fn="surv",xlab="seconds")
@@ -124,6 +124,34 @@ log(scale) log(shape)
  15.058067   1.051323 
 ``` 
 which is near the real values of $$1/\lambda=14.42$$ and $$k=1$$.
+We can compare this model with the one parametrically estimated with the [Cox model](https://en.wikipedia.org/wiki/Proportional_hazards_model#The_Cox_model).
+
+```R
+> fit.cox<-coxreg(Surv(interval,event)~1,data=df)
+> check.dist(fit.cox,fit)
+``` 
+![png](cumhazardfunctionweibull.png)
+
+
+### Old age mortaility
+
+In this example we will study the data *oldmort*. The data consists of old age life histories from 1 January 1860 to 31 december 1880, 21 years. Only (parts of) life histories above age 60 is considered.
+
+
+> S <- Surv(with(oldmort,enter - 60, exit - 60, event))
+> fit.cox <- coxreg(S ~ sex + civ + birthplace, data = oldmort)
+> drop1(fit.cox, test = "Chisq")
+Single
+
+> fit.wb <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist="weibull")
+> fit.ln <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "lognormal")
+> fit.ll <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "loglogistic")
+> fit.gm <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "gompertz")
+> fit.ev <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "ev")
+
+
+
+Then
 
 
 

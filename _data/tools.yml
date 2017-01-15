@@ -83,4 +83,23 @@
      url: https://d3js.org/
      desc: D3.js is a JavaScript library for manipulating documents based on data. I can be used with Beaker. 
 
+- name: Torch
+  url: http://torch.ch/
+  img: img/torch.png
+  desc: Torch is a scientific computing framework with wide support for machine learning algorithms that puts GPUs first. It is easy to use and efficient, thanks to an easy and fast scripting language, LuaJIT, and an underlying C/CUDA implementation.
 
+- name: Caffe
+  url: http://caffe.berkeleyvision.org/
+  img: img/caffe.png
+  desc: Caffe is a deep learning framework made with expression, speed, and modularity in mind. It is developed by the Berkeley Vision and Learning Center (BVLC) and by community contributors. 
+ 
+- name: TensorFlow
+  url: https://www.tensorflow.org/
+  img: img/tensorflow.png
+  desc: TensorFlow™ is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them. 
+
+- name: Keras
+  url: https://keras.io/
+  img: img/keras.jpg
+  desc: Keras is a high-level neural networks library, written in Python and capable of running on top of either TensorFlow or Theano. It was developed with a focus on enabling fast experimentation. Being able to go from idea to result with the least possible delay is key to doing good research.
+  

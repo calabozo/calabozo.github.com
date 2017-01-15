@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Clustering
 excerpt: 
 search_omit: false
