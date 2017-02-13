@@ -11,42 +11,52 @@ The purpose of this section is to explain how to obtain a network of related ele
 
 ## Basic network inference
 
-We can calculate the correlation and obtain the relations of different elements.
+We can calculate the correlation and obtain the relations of different elements. The most popular is the [Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation). It can be derived from the covariance matrix:
+\\[\rho_{X,Y} = \frac{cov(X,Y)}{\sigma_X\sigma_Y} \\]
 
-Pearson correlation:
-https://en.wikipedia.org/wiki/Pearson_correlation
+If we have an ordinal associaton, this means that instead of having the real numbers we have a sortered ranking with labels for the "first", "second", "third", etc... then we must use a [rank correlation](https://en.wikipedia.org/wiki/Rank_correlation). From all the available correlation coefficients, the most popular is the Speakman's rank correlation coefficient.
+The [Spearman correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient) is defined as the Pearson correlation coefficient between the ranked variables. The Kendall rank correlation coefficient is also quite popular. Commonly referred to as [Kendall's tau coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient) (after the Greek letter τ), is a statistic used to measure the ordinal association between two measured quantities
 
-Speakman's rank correlation coefficient:
-The Spearman correlation coefficient is defined as the Pearson correlation coefficient between the ranked variables
-https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient
-
-Kendall rank correlation coefficient:
-Commonly referred to as Kendall's tau coefficient (after the Greek letter τ), is a statistic used to measure the ordinal association between two measured quantities
-https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient
 
 
 ## Relevance network
 
-Correlation can be misleading
+Correlation can be misleading, let's imagine that we have two functions:
+\\[y=2·x+1+\varepsilon_0\\]
+\\[z=2·x+1+\varepsilon_1\\]
+where $$\varepsilon_0$$ and $$\varepsilon_1$$ are additive white random noise. This means that the variable x is highly correlated with y and z. But there is also a high correlation between z and y. Obviously we are interested in knowing if the relation between y and z is a true relation or they are correlated with a third variable (the variable x in this case).
 
 ```R
-set.seed(2807)
-x <- rnorm(100)
-y <- 2*x+1+rnorm(100,0,0.1)
+> set.seed(2807)
+> x <- rnorm(100)
+> y <- 2*x+1+rnorm(100,0,0.1)
 
-cor(x,y)
+> cor(x,y)
 # [1] 0.9988261
-z <- 2*x+1+rnorm(100,0,0.1)
-cor(x,z)
+> z <- 2*x+1+rnorm(100,0,0.1)
+> cor(x,z)
 # [1] 0.998751
-cor(y,z)
+> cor(y,z)
 # [1] 0.9971105
 ```
+Try to find this relations is very common in bioinformatics where relations between different genes are found looking at the evolution of the gene expression level and how they are related. This underlying network between different genes is what has been known as [Relevance network](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2232846/pdf/procamiasymp00004-0748.pdf)
 
-### Gaussian Graphical Model
+### Partial correlation
+
+The [partial correlation](https://en.wikipedia.org/wiki/Partial_correlation) measures the degree of association between two random variables. It is the correlation that remains between two variables if the effect of the other variables has been regressed away.
+
+
+Formally, the partial correlation between $$y$$ and $$z$$ given a set of n controlling variables X = {X1, X2, ..., Xn}, written $$\rho_{zy·x}$$, is the correlation between the residuals $$R_z$$ and $$R_y$$ resulting from the linear regression of Z with X and of Y with X, respectively. In the [linear regression](/ml/linear_regression/) problem we are trying to obtain the optimum value of $$\beta$$ that minimizes the minimum quadratic error.
+\\[y=\alpha+\beta·x+\epsilon\\]
+This gives a $$\beta$$ of:
+\\[\beta=\frac{\sum_{i=1}^n(y_i-\bar{y})(x_i-\bar{x})}{\sum_{i=1}^n(x_i-\bar{x})^2}=\frac{Cov(x,y)}{Var(x)}=X^t·X^{-1}·X^t·y\\]
+
+The first-order partial correlation (i.e. when n=1) is the difference between a correlation and the product of the removable correlations divided by the product of the coefficients of alienation of the removable correlations. 
+
 
 In Gaussian Graphical Models, the conditional dependency graph is estimated. This graph is defined as follows 
 
+### Gaussian Graphical Model
 
 #### LASSO
 
