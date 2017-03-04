@@ -59,3 +59,8 @@ pr <- prediction(p, test$Survived)
 prf <- performance(pr, measure = "tpr", x.measure = "fpr")
 plot(prf)
 '''
+
+
+## C4.5
+
+[C4.5](https://en.wikipedia.org/wiki/C4.5_algorithm) is an algorithm used to generate a decision tree.
