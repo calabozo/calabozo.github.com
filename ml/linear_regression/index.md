@@ -122,3 +122,7 @@ grid()
 
 ![png](output_12_1.png)
 
+
+
+# Ridge penalty
+

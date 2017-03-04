@@ -26,3 +26,5 @@ These algorithms allow automatic discovery of complex associations in a data set
 Click [here](association) to see different association rules methods.
 
 
+
+

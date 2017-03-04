@@ -19,7 +19,7 @@ excerpt: vector, matrix, variables, NA
   * myDataFrame[sample(nrow(myDataFrame),100), ]
 * identical(vect, vect2) : Checks if two objects are equal
 * cbind(x,y) : Concatenate by columns
-* rbint(x,y) : Concatenate by rows
+* rbind(x,y) : Concatenate by rows
 * rank(y) - Returns the sample ranks of the values in a vector
   * rank(sort(x))
 * reorder(x, y) : By default treats its first argument as a categorical variable, and reorders its levels based on the values of a second variable
@@ -66,7 +66,11 @@ excerpt: vector, matrix, variables, NA
 ## Merging data
 * merge(x,y,by="colT")
 * match(x,y)  returns a vector of the positions of (first) matches of its first argument in its second.
-* x %in% y returns a logical vector indicating if there is a match or not for its left operand.
+* x %in% y    returns a logical vector indicating if there is a match or not for its left operand.
 * unique(x)
 * duplicated(x) determines which elements of a vector or data frame are duplicates 
+* union(x,y)     : Returns elements of x and y
+* intersect(x,y) : Returns elements of x that are in y
+* setdiff(x,y)   : Returns elements of x that are not in y
+* setequal(x,y)  : Returns alements of x
 

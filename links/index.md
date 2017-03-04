@@ -63,5 +63,8 @@ http://www.sthda.com/english/wiki/r-software
 [Missing data MICE packet](http://datascienceplus.com/imputing-missing-data-with-r-mice-package/)
 
 
+# Training
 
+https://gym.openai.com/
+https://universe.openai.com/
 
