@@ -10,11 +10,17 @@ More information [here](metaheuristic)
 
 # Regression
 
-In a regression model the goal is to predict an outcome of given some input data.
+In a regression model the goal is to predict an outcome of given some input data. This statistical process try to estimate the relations among different variables of the form:
+\\[
+Y=f(X,\beta)
+\\]
+We try to predict the value of the $$Y$$ variable given the dependent variables $$X$$. $$\beta$$ are the unknown parameters that have do be inferred to produce the fittest output.
+
+More information and methods about regression [here](regression).
 
 ## Linear regression model
 
-Please go to [here](linear_regression)
+
 
 ## Regression Decision Tree
 
