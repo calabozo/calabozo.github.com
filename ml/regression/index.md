@@ -9,7 +9,7 @@ title: Regression models
 \\[
 \left \\{ y_i,x_{i1},x_{i2},\cdots,x_{ip} \right \\}_{i=1}^n
 \\]
-this model assumes that there is a linear relation between $$y_i$$ and the p-vector $$x_i$$ plus an unobserved variable $$\varepsilon_i$$ which models the noise of the model:
+this model assumes that there is a linear relation between $$y_i$$ (the dependent variable) and the p-vector $$x_i$$ (the independent variables) plus an unobserved n-dimensional vector $$\varepsilon_i$$ which models the noise:
 
 \\[
 y_i = \beta_1·x_{i1}+\beta_2·x_{i2}+\cdots+\beta_p·x_{ip}+\varepsilon_i
@@ -36,6 +36,15 @@ where $$\mathbf{Y}=\mathbb{R}^{n\times1}$$, $$\mathbf{X}=\mathbb{R}^{n\times p}$
 \vec{\beta}=\begin{bmatrix} \beta_1 \\\ \beta_2 \\\ \vdots \\\ \beta_p \end{bmatrix} \qquad
 \vec{\varepsilon}=\begin{bmatrix} \varepsilon_1 \\\ \varepsilon_2 \\\ \vdots \\\ \varepsilon_n \end{bmatrix} 
 \\]
+
+The purpose of this regression is to find the optimum values for the p-vector $$vec{\beta}$$ that given the matrix of observations $$\mathbf{X}$$ produces the most accurate representation of $$\mathbf{Y}$$ under the following assumptions:
+* **Weak exogeneity**: This essentially means that the predictor variables x can be treated as fixed values, rather than random variables.
+* **Constant variance**: (a.k.a. homoscedasticity) This means that different response variables have the same variance in their errors, regardless of the values of the predictor variables. However, various estimation techniques (e.g. weighted least squares and heteroscedasticity-consistent standard errors) can handle heteroscedasticity in a quite general way. Bayesian linear regression techniques can also be used when the variance is assumed to be a function of the mean. It is also possible in some cases to fix the problem by applying a transformation to the response variable.
+* **Independence of errors**: This assumes that the errors of the response variables are uncorrelated with each other
+
+## Estimation methods
+
+
 
 
 Also known as general linear model (not to be confused with the generalized linear model)

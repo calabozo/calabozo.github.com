@@ -40,7 +40,7 @@ Which is estimate an of $$P(Y|X)=\frac{P(Y,X)}{P(X)}$$
 
 ### Lift
 
-Another measure is the *lift* wich can be interpreted as the deviation of the support of the whole rule from the support expected under independence given the supports of the LHS and the RHS. Greater lift values indicate stronger associations. 
+Another measure is the *lift* which can be interpreted as the deviation of the support of the whole rule from the support expected under independence given the supports of the LHS and the RHS. Greater lift values indicate stronger associations. 
 
 
 \\[
@@ -58,117 +58,129 @@ This is by far the most popular associative algorithm. This algorithm can be des
 5. Increase the remaining itemsets with one new item, with all the possible combinations.
 6. Goto 3 until all the itemsets in the original list has been inspected.
 
-First we need to define a support value. In this case we will set it to 0.6.
+First we need to define a support value. In this case we will set it to 0.4.
 
 Let's assume that we have in the database the following itemsets:
 
+{: .table-border}
+| Itemset| Support |
+|--------|---------|
+| Itemset A | Item1, Item2, Item3, Item5 |
+| Itemset B | Item2, Item4 |
+| Itemset C | Item2, Item3 |
+| Itemset D | Item1, Item2, Item3, Item4 |
+| Itemset E | Item1, Item3 |
 
-Then we select the items:
+We create a list of itemsets with only one item, and select only those with a support value higher than our predefined threshold:
 
 {: .table-border}
 | Itemset| Support |
 |-------|---------|
-| **Item1** | **$$ \frac{4}{5}=0.8 $$** |
+| **Item1** | **$$ \frac{3}{5}=0.6 $$** |
 | **Item2** | **$$ \frac{4}{5}=0.8 $$** |
 | **Item3** | **$$ \frac{4}{5}=0.8 $$** |
 | **Item4** | **$$ \frac{2}{5}=0.4 $$** |
 | _Item5_ | _$$ \frac{1}{5}=0.2 $$_ |
 
-
-
+Then with the itemsets that passed that threshold we continue and add another element to create a longer itemsets:
 
 {: .table-border}
 | Itemset| Support |
 |-------|---------|
-| {Item1, Item2} | $$ \frac{2}{5}=0.4 $$ |
+| **{Item1, Item2}** | **$$ \frac{2}{5}=0.4 $$** |
 | **{Item1, Item3}** | **$$ \frac{3}{5}=0.6 $$** |
 | {Item1, Item4} | $$ \frac{1}{5}=0.2 $$ |
 | **{Item2, Item3}** | **$$ \frac{3}{5}=0.6 $$** |
-| {Item2, Item4} | $$ \frac{2}{5}=0.4 $$ |
+| **{Item2, Item4}** | **$$ \frac{2}{5}=0.4 $$** |
 | {Item3, Item4} | $$ \frac{1}{5}=0.2 $$ |
 
-
+We repeate once again, this time with a itemsets of length 3:
 
 {: .table-border}
 | Itemset| Support |
 |-------|---------|
-| {Item1, Item2, Item3} | $$ \frac{2}{5}=0.4 $$ |
+| **{Item1, Item2, Item3}** | $$ \frac{2}{5}=0.4 $$ |
 | {Item1, Item2, Item4} | $$ \frac{1}{5}=0.2 $$ |
 | {Item1, Item3, Item4} | $$ \frac{1}{5}=0.2 $$ |
 | {Item2, Item3, Item4} | $$ \frac{1}{5}=0.2 $$ |
 
 
+Now we collect a list of all the itemsets above the threshold:
+{Item1},{Item2},{Item3},{Item4},{Item1,Item2},{Item1,Item3},{Item2,Item3},{Item2,Item4},{Item1,Item2,Item3,Item4}.
+From which we can infer the following rules with only one element in the RHS:
+
 {: .table-border}
-| Itemset| Support |
-|-------|---------|
-| {Item1, Item2, Item3, A5} | $$ \frac{1}{5}=0.2 $$ |
+| Left hand side| Right hand side | Support | Confidence | Lift |
+|--------------|-----------------|---------|------------|-------|
+| {}           | {Item1}         | 3/5=0.6 |  3/5=0.6   | 1    |
+| {}           | {Item2}         | 4/5=0.8 |  4/5=0.8   | 1    |
+| {}           | {item3}         | 4/5=0.8 |  4/5=0.8   | 1    |
+| {}           | {item4}         | 2/5=0.4 |  2/5=0.4   | 1    |
+| {item1}      | {item2}         | 2/5=0.4 |  2/3=0.6666667| 5 * 2 /(3 * 4)=0.8333333|  
+| {item2}      | {item1}         | 2/5=0.4 |  2/4=0.5   | 5 * 2 / (3 * 4)=0.8333333 |
+| {item1}      | {item3}         | 3/5=0.6 |  3/3=1     | 5 * 3 / (3 * 4)=1.25|
+| {item3}      | {item1}         | 3/5=0.6 |  3/4=0.75  | 5 * 3 / (3 * 4)=1.25|
+| {item2}      | {item3}         | 3/5=0.6 |  3/4=0.75  | 5 * 3 / (4 * 4)=0.9375|
+| {item3}      | {item2}         | 3/5=0.6 |  3/4=0.75  | 5 * 3 / (4 * 4)=0.9375|
+| {item2}      | {item4}         | 2/5=0.4 |  2/4=0.5   | 5 * 2 / (4 * 2)=1.25|
+| {item4}      | {item2}         | 2/5=0.4 |  2/2=1     | 5 * 2 / (4 * 2)=1.25|
+| {item1,item2}| {item3}         | 2/5=0.4 |  2/2=1     | 5 * 2 / (2 * 4)=1.25|
+| {item1,item3}| {item2}         | 2/5=0.4 |  2/3=0.6666667| 5 * 2 / ( 3 * 4 )=0.8333333|
+| {item2,item3}| {item1}         | 2/5=0.4 |  2/3=0.6666667| 5 * 2 / ( 3 * 3 )=1.1111111|
 
 
-
-
-First Header | Second Header
------------- | -------------
-Content from cell 1 | Content from cell 2
-Content in the first column | Content in the second column
-
-
-![Alt text](https://g.gravizo.com/g?
-  digraph G {
-    aize ="4,4";
-    main [shape=box];
-    main -> parse [weight=8];
-    parse -> execute;
-    main -> init [style=dotted];
-    main -> cleanup;
-    execute -> { make_string; printf};
-    init -> make_string;
-    edge [color=red];
-    main -> printf [style=bold,label="100 times"];
-    make_string [label="make a string"];
-    node [shape=box,style=filled,color=".7 .3 1.0"];
-    execute -> compare;
-  }
-)
+The R code to calculate this Apriori rules follows:
 
 ```R
-> node1<-c(T,T,T,F,T,F,T,T,T,F)
-> node2<-c(T,F,F,T,T,F,T,T,F,T)
-> node3<-c(F,F,T,F,T,F,T,T,F,F)
-> node4<-c(F,F,T,T,T,T,F,F,F,F)
-> node5<-c(F,T,T,F,T,F,T,F,F,F)
-> node6<-c(F,F,T,T,T,T,F,F,F,F)
-> node7<-c(F,F,F,F,T,F,F,F,F,F)
-> trans<-as(data.frame(node1,node2,node3,node4,node5,node6,node7),"transactions")
+> item1<-c(T,F,F,T,T)
+> item2<-c(T,T,T,T,F)
+> item3<-c(T,F,T,T,T)
+> item4<-c(F,T,F,T,F)
+> item5<-c(T,F,F,F,F)
+> library(arules)
+> trans<-as(data.frame(item1,item2,item3,item4,item5),"transactions")
 > inspect(trans)
-     items                                       transactionID
-[1]  {item1,item2}                               1            
-[2]  {item1,item5}                               2            
-[3]  {item1,item3,item4,item5,item6}             3            
-[4]  {item2,item4,item6}                         4            
-[5]  {item1,item2,item3,item4,item5,item6,item7} 5            
-[6]  {item4,item6}                               6            
-[7]  {item1,item2,item3,item5}                   7            
-[8]  {item1,item2,item3}                         8            
-[9]  {item1}                                     9            
-[10] {item2}                                     10           
+    items                     transactionID
+[1] {item1,item2,item3,item5} 1            
+[2] {item2,item4}             2            
+[3] {item2,item3}             3            
+[4] {item1,item2,item3,item4} 4            
+[5] {item1,item3}             5    
 > image(trans)
-> rules<-apriori(trans, parameter=list(support=0.3, confidence=0.9),control = list(verbose=F))
-> inspect(rules)
-    lhs              rhs     support confidence lift    
-[1] {item4}       => {item6} 0.4     1          2.500000
-[2] {item6}       => {item4} 0.4     1          2.500000
-[3] {item5}       => {item1} 0.4     1          1.428571
-[4] {item3}       => {item1} 0.4     1          1.428571
-[5] {item3,item5} => {item1} 0.3     1          1.428571
-[6] {item2,item3} => {item1} 0.3     1          1.428571
 ```
+![png](transactionsArules.png)
+```R
+> rules<-apriori(trans, parameter=list(support=0.4, confidence=0,minlen=2),
+         control = list(verbose=F))
+> inspect(rules)
+     lhs              rhs     support confidence lift     
+[1]  {}            => {item4} 0.4     0.4000000  1.0000000
+[2]  {}            => {item1} 0.6     0.6000000  1.0000000
+[3]  {}            => {item2} 0.8     0.8000000  1.0000000
+[4]  {}            => {item3} 0.8     0.8000000  1.0000000
+[5]  {item4}       => {item2} 0.4     1.0000000  1.2500000
+[6]  {item2}       => {item4} 0.4     0.5000000  1.2500000
+[7]  {item1}       => {item2} 0.4     0.6666667  0.8333333
+[8]  {item2}       => {item1} 0.4     0.5000000  0.8333333
+[9]  {item1}       => {item3} 0.6     1.0000000  1.2500000
+[10] {item3}       => {item1} 0.6     0.7500000  1.2500000
+[11] {item2}       => {item3} 0.6     0.7500000  0.9375000
+[12] {item3}       => {item2} 0.6     0.7500000  0.9375000
+[13] {item1,item2} => {item3} 0.4     1.0000000  1.2500000
+[14] {item1,item3} => {item2} 0.4     0.6666667  0.8333333
+[15] {item2,item3} => {item1} 0.4     0.6666667  1.1111111
+
+```
+
+A more practical exercise can be done using the Titanic dataset from Kaggle. This file contains passenger list of the people in the Titanic with some extra data like age, class, boarding city, etc... We are trying to get a rule which tell us if a passanger survived or not based on the age and class.
+
 
 
 
 
 Download the data from:
 https://www.kaggle.com/c/titanic/download/train.csv
-
+```R
 > titanic<-read.csv(file="train.csv")
 > titanic$Age<-factor(cut(titanic$Age,c(0,16,100)),labels=c("child","adult"))
 > titanic$Survived<-factor(titanic$Survived,labels=c("No","Yes"))
@@ -182,7 +194,7 @@ https://www.kaggle.com/c/titanic/download/train.csv
 > redundant<-colSums(rulesSubset, na.rm=T)>=1
 > rules<-rules[!redundant]
 > plot(rules,method="graph", control=list(type="items"))
-
+```
 
 
 

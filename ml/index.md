@@ -3,10 +3,6 @@ layout: default
 title: Machine learning algorithms 
 ---
 
-# Metaheuristic
-
-[Metaheuristic](https://en.wikipedia.org/wiki/Metaheuristic) is a higher-level procedure or heuristic designed to find, generate, or select a heuristic (partial search algorithm) that may provide a sufficiently good solution to an optimization problem, especially with incomplete or imperfect information or limited computation capacity.[1] Metaheuristics sample a set of solutions which is too large to be completely sampled. Metaheuristics may make few assumptions about the optimization problem being solved, and so they may be usable for a variety of problems.
-More information [here](metaheuristic)
 
 # Regression
 
