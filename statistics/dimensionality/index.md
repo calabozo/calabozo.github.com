@@ -19,3 +19,19 @@ Another way to characterise the principal components transformation is therefore
 
 
 https://www.r-bloggers.com/computing-and-visualizing-pca-in-r/
+
+
+
+## Non-negative matrix factorization
+
+[Non-negative matrix factorization](https://en.wikipedia.org/wiki/Non-negative_matrix_factorization) (NMF or NNMF), also non-negative matrix approximation is a group of algorithms in multivariate analysis and linear algebra where a matrix V is factorized into (usually) two matrices W and H, with the property that all three matrices have no negative elements. This non-negativity makes the resulting matrices easier to inspect.
+
+If we add additional orthogonality constraint on H {\displaystyle H} H, i.e., H H T = I {\displaystyle HH^{T}=I} HH^{T}=I, then the above minimization is mathematically equivalent to the minimization of K-means clustering ).
+
+
+## Vector quantization
+
+[Vector quantization](https://en.wikipedia.org/wiki/Vector_quantization) (VQ) is a classical quantization technique from signal processing that allows the modeling of probability density functions by the distribution of prototype vectors. It was originally used for data compression. It works by dividing a large set of points (vectors) into groups having approximately the same number of points closest to them. Each group is represented by its centroid point, as in k-means and some other clustering algorithms.
+
+
+

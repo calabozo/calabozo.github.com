@@ -5,17 +5,16 @@ excerpt: "ANOVA, t-student, chi square"
 search_omit: false
 ---
 
-http://researchbasics.education.uconn.edu/anova_regression_and_chi-square/
+1. 
+{:toc}
 
 
 
-# 1. Investigating differences
-
-## 1.1. Confidence Intervals
+# Confidence Intervals
 
 We have an array of data, we want to calculate the mean and its interval confidence assuming a gaussian variable.
 
-### Known variance
+## Known variance
 
 From the array of data we can calculate the mean $$E[X]$$. The variance is known and equal to $$\sigma^2$$, and the **standard error of the mean** is $$\sigma^2_M=\frac{\sigma^2}{n}$$ where n is the number of samples of our data.
 
@@ -45,7 +44,7 @@ In R this will look like this:
 ```
 
 
-### Unknown variance
+## Unknown variance
 
 From the array of data we can calculate the mean $$E[X]$$. The variance is unknown, it will be calculated as $$Var[X]$$ (this is the [unbiased estimator](https://en.wikipedia.org/wiki/Bias_of_an_estimator) of the variance) and the standard error of the mean is $$s^2_M=\frac{VAR[X]}{n}$$ where n is the number of samples of our data.
 
@@ -74,11 +73,11 @@ In R this will look like this:
 For the same samples **this confidence interval is larger than the one obtained with gaussian**.
 
 
-## 1.2. Comparing two groups quantitative of data
+# Comparing two groups quantitative of data
 
-### Student's t-test
+## Student's t-test
 
-The [t-Test](https://en.wikipedia.org/wiki/Student's_t-test) is used when you have **two** groups of data and you want to know if the **mean** of both groups is the same or not. We have two hypotesis:
+The [t-Test](https://en.wikipedia.org/wiki/Student's_t-test) is used when you have two groups of data and you want to know if the **mean of both groups is the same or not**. We have two hypotesis:
 \\[H_0 : \mu(X) = \mu(Y) \\]
 \\[H_1 : \mu(X) \ne \mu(Y) \\]
 
@@ -138,9 +137,9 @@ mean of x mean of y
 
 
 
-#### Welch's t-test ####
+### Welch's t-test
 
-This test is used when the two population **variances** are not assumed to be equal. The t-statistic is calculated as:
+This test is used when the two population **variances are not assumed to be equal**. The t-statistic is calculated as:
 \\[ t=\frac{E[X]-E[Y]}{s_{\bar{\Delta}}} \\]
 
 where
@@ -181,7 +180,7 @@ In this case the p-value is really low so we can reject the null hypothesis and 
 
 
 
-#### Paired t-test ####
+### Paired t-test ####
 
 This test is used when there are **two** groups of data **which are correlated** and you want to know if the **mean** of both groups is the same or not. This can be used for example if we have a medical study and we want to check if some values change after the treatment. The null hypothesis states that the difference between the means is equal to $$\mu_0$$:
 
@@ -224,10 +223,10 @@ mean of the differences
 
 
 
-### Wilcoxon-Mann-Whitney test ####
+## Wilcoxon-Mann-Whitney test ####
 
 
-The [Mann–Whitney U test](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) is used for compare if two independent samples come from the same distribution. A very general formulation is to assume that:
+The [Mann–Whitney U test](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) is used for **compare if two independent samples come from the same distribution**. A very general formulation is to assume that:
 
 1. All the observations from both groups are independent of each other,
 1. The responses are ordinal (i.e., one can at least say, of any two observations, which is the greater)
@@ -302,9 +301,9 @@ ratio of variances
 Thus in this case with a p-value of 0.6924 we can accept the null hypotesis and assume that the two variances are homogeneous.
 
 
-## 1.3. Comparing several groups of data
+# Comparing several groups of data
 
-### one-way ANOVA
+## one-way ANOVA
 
 We use [one-way ANOVA](https://en.wikipedia.org/wiki/One-way_analysis_of_variance) to **compare the means of three or more groups of data**. It is also said that compares one dependent variable (the input data) with an independent variable that has more than two levels; each level, also called factor will identify each of the different groups of data. The *null hypothesis* assumes that all the groups have the same mean values:
 \\[H_0 : \mu_1 = \mu_2 = ... = \mu_k \\]
@@ -324,14 +323,14 @@ F=\frac{\sum_{j=1}^{k} n_j \left ( \bar{y_j}-\bar{y} \right )^2 / \left ( k-1 \r
 \\]
 
 
-The ANOVA produces an [F-statistic](# Fisher variance F-test), the ratio of the variance calculated among the means to the variance within the samples. If the group means are drawn from populations with the same mean values, the variance between the group means should be lower than the variance of the samples, following the central limit theorem. A higher ratio therefore implies that the samples were drawn from populations with different mean values.
+The ANOVA produces an [F-statistic](# Fisher variance F-test), the ratio of the variance calculated among the means to the variance within the samples. *If the group means are drawn from populations with the same mean values, the variance between the group means should be lower than the variance of the samples*, following the central limit theorem. A higher ratio therefore implies that the samples were drawn from populations with different mean values.
 
-When there are only two means to compare the [t-test](Student's t-test) should be used, the t-test and the F-test are equivalent; the relation between ANOVA and t is given by $$F= t^2$$. 
+When there are only two means to compare the [Student's t-test](# Student's t-test) should be used, the t-test and the F-test are equivalent; the relation between ANOVA and t is given by $$F= t^2$$. 
 
 
-ANOVA assumptions
-* The dependent variable is normally distributed in each group. (if not check [Kruskal-Wallis H Test](Kruskal-Wallis H Test))
-* There is homogeneity of variances. (if not check [Welch F test](#Welch F test))
+ANOVA assumptions:
+* The dependent variable is normally distributed in each group. (if not use [Kruskal-Wallis H Test](# Kruskal-Wallis H Test))
+* There is homogeneity of variances. (if not use [Welch F test](# Welch F test))
 * Independence of observations. 
 
 
@@ -381,10 +380,10 @@ Residuals   157   6845    43.6
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 ```
 
-#### Turkey's test
+### Turkey's test
 
-Tukey's range test, also known as Tukey's HSD (honest significant difference) test, can be used to find the means that are significant different from each of the groups. Tukey's test compares the means of every group to the means of every other group. and identify any difference between two means greater than the expected standard error.
-It is equivalent to a pairwise t-student test with a small but important difference. When doing Turkeys test homogeneity is assumed, so the variance is calculated with all the samples from all the groups. When doing pairwise t-student the variance for each group is calculated independently which will read to a less robust result.
+[Tukey's range test](https://en.wikipedia.org/wiki/Tukey%27s_range_test), also known as Tukey's HSD (honest significant difference) test, can be used to **find the means that are significant different from each of the groups**. Tukey's test compares the means of every group to the means of every other group and identify any difference between two means greater than the expected standard error.
+It is equivalent to a pairwise t-student test with a small but important difference. When doing Turkeys test homogeneity is assumed, so the variance is calculated with all the samples from all the groups. When doing pairwise t-student the variance for each group is calculated independently which will lead to a less robust result.
 
 We can calculate the Tukey test in R with the data from the last example:
 ```
@@ -403,14 +402,30 @@ $cl
 ```
 This means that group 3 and 2 have a high probability to have the same mean, and the mean of group 1 differs.
 
+## Welch's anova
 
-### two-way ANOVA
+Does not require the homogeneity of variances assumption. It is based on the [Welch's t-test](# Welch's t-test).
+
+In R it can be invoked using the command *oneway.test* with the parameter *var.equal=FALSE*. The syntax is similar to *aov*.
+
+
+### Kruskal-Wallis H Test 
+
+The Kruskal–Wallis test by ranks, Kruskal–Wallis H test, or One-way ANOVA on ranks is a **non-parametric method for testing whether samples originate from the same distribution**. It is used for comparing two or more independent samples of equal or different sample sizes. It extends the [Wilcoxon-Mann-Whitney test](# Wilcoxon-Mann-Whitney test).
+
+This can be implemented in R with the command *kruskal.test*. An example of how to use it can be found at [r-tutor](http://www.r-tutor.com/elementary-statistics/non-parametric-methods/kruskal-wallis-test).
+
+
+
+## two-way ANOVA
 
 The [two-way ANOVA](https://en.wikipedia.org/wiki/Two-way_analysis_of_variance) is an extension of the [one-way ANOVA](#one-way ANOVA) where there are two variables (factors) which interact with the data. 
 In this case the data is given in a matrix form where cell will have the samples corresponding to the two dependent factors, one given by the row number and other for the column number. 
 
 
-These hypothesis examine the model fit the model: $$y_{i}=\beta_0+\beta_1x_{i1}+\beta_2x_{i2}+\beta_3x_{i1}x_{i2}+\varepsilon_{i}$$, where:
+These hypothesis try to fit the data to the following model: $$y_{i}=\beta_0+\beta_1x_{i1}+\beta_2x_{i2}+\beta_3x_{i1}x_{i2}+\varepsilon_{i}=\widehat{y_i}+\varepsilon_{i}$$
+
+where:
 * $$y_{i}$$ is the dependent variable
 * $$\beta_0$$ is an unknown coefficient to be estimated independent of the other variables.
 * $$\beta_1$$ is an unknown coefficient to be estimated for the first independent variable.
@@ -423,7 +438,7 @@ These hypothesis examine the model fit the model: $$y_{i}=\beta_0+\beta_1x_{i1}+
 * $$k$$ is the number of unknown coefficients, for two-way anova is 3.
 * $$n=$$ is the total sample size
 
-The F statistics of the [omnibus test](https://en.wikipedia.org/wiki/Omnibus_test#Omnibus_Tests_in_Multiple_Regression) in tow-way anova:
+The F statistics of the [omnibus test](https://en.wikipedia.org/wiki/Omnibus_test#Omnibus_Tests_in_Multiple_Regression) in two-way anova:
 \\[
 F=\frac{\sum_{j=1}^{n} \left ( \widehat{y_j}-\bar{y} \right )^2 / k }{\sum_{j=1}^{k} \sum_{i=1}^{n_j} \left ( y_{ij}-\widehat{y_j} \right )^2 / \left ( n-k-1 \right ) }
 \\]
@@ -455,7 +470,7 @@ Residuals   96  449.1    4.68
 The summary shows that there is a dependency between the data and *var1* and *var2*, but there is no correlation between *var1* and *var2*.
 
 
-### MANOVA
+## MANOVA
 
 In statistics, multivariate analysis of variance ([MANOVA](https://en.wikipedia.org/wiki/Multivariate_analysis_of_variance)) is a procedure for comparing multivariate sample means. As a multivariate procedure, it is used when there are two or more independent variables, and is typically followed by significance tests involving individual independent variables separately.
 It is a generalization of the [two-way anova](# two-way ANOVA).
@@ -463,52 +478,101 @@ It is a generalization of the [two-way anova](# two-way ANOVA).
 
 
 
-### Welch's anova
+# Contingency tables
 
-Does not require the homogeneity of variances assumption. It is based on the [Welch's t-test](# Welch's t-test).
+## Pearson's Chi-square
 
-In R it can be invoked using the command *oneway.test* with the parameter *var.equal=FALSE*. The syntax is similar to *aov*.
-
-
-### Kruskal-Wallis H Test 
-
-The Kruskal–Wallis test by ranks, Kruskal–Wallis H test, or One-way ANOVA on ranks is a non-parametric method for testing whether samples originate from the same distribution. It is used for comparing two or more independent samples of equal or different sample sizes. It extends the [Wilcoxon-Mann-Whitney test](# Wilcoxon-Mann-Whitney test).
-
-This can be implemented in R with the command *kruskal.test*. An example of how to use it can be found [here](http://www.r-tutor.com/elementary-statistics/non-parametric-methods/kruskal-wallis-test)
-
-
-
-## 1.4. Contingency tables
-
-### Pearson's Chi-square
-
-The [Pearson's chi-square](https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test) test can be used to test for independence between categorical data.
-* The null hypothesis for this test is that the variables are independent (i.e. that there is no statistical association).
+The [Pearson's chi-square](https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test) test can be used to **test for independence between categorical data**.
+* The *null hypothesis* for this test is that the variables are independent (i.e. that there is no statistical association).
 * The alternative hypothesis is that there is a statistical relationship or association between the two variables.
 
+These are the assumptions for this test:
+* Simple random sample
+* A sample with a sufficiently large size is assumed
+* Expected categories count:  When this assumption is not met, [Yates's correction](https://en.wikipedia.org/wiki/Yates%27s_correction_for_continuity) is applied.
+* Independence: chi-squared cannot be used to test correlated data (like matched pairs or panel data). In those cases you should use [McNemar's test](https://en.wikipedia.org/wiki/McNemar%27s_test)
+
+
+The value of the test-statistic is:
+\\[
+\chi^2 = \sum_{i=1}^{n} \frac{(O_i-E_i)^2}{E_i} = N \sum_{i=1}^{n} \frac{(O_i/N-p_i)^2}{p_i} 
+\\]
+
+where:
+* $$N$$ is the total number of observed elements.
+* $$O_i$$ is the observed number elements in the category *i*.
+* $$E_i$$ is the expected number elements in the category *i*.
+* $$p_i$$ is the expected probability of finding an element in the category *i*. $$p_i=E_i/N$$  
+* $$n$$ is the number of categories under study.
+
+This chi-squared statistic is used to calculate a p-value by comparing the value of the statistic to a chi-squared distribution. 
+For the case of a [multinomial goodness fit](https://en.wikipedia.org/wiki/Multinomial_test) the number of degrees of freedom is $$n-1$$.
+
+Let's imagine that we want to check if a 4-sided dice. We roll it 40 times and the observed number of times each side appears is 10,7,9,14:
+```R
+> observed<-c(10,7,9,14)
+> N<-sum(observed)
+> expected<-N/length(observed)
+> test<-sum((observed-expected)^2/expected)
+> 
+> pvalue<-1-pchisq(test,length(observed)-1)
+> pvalue
+[1] 0.4574895
+```
+The p-value to accept null hypotesis is really high, so we can discard $$H_0$$ and assume that the dice is not fair. The function *chisq.test* from R can be used for this purpose.
+
+
+In this case, an "observation" consists of the values of two outcomes and the null hypothesis is that the occurrence of these outcomes is statistically independent. Each observation is allocated to one cell of a two-dimensional array of cells (called a contingency table) according to the values of the two outcomes. If there are r rows and c columns in the table, the *theoretical frequency* for a cell, given the hypothesis of independence, is
+\\[
+    E_{i,j}= N p_{i·} p_{·j}
+\\]
+In this case the value of the test-statistic is:
+\\[
+\chi^2 = \sum_{i=1}^{r}\sum_{i=1}^{c} \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}} = N \sum_{i=1}^{r}\sum_{i=1}^{c} \frac{(O_{i,j}/N-p_{i·}p_{·j})^2}{p_{i·}p_{·j}} 
+\\]
+In this case the number of degrees of freedom is $$(r-1)(c-1)$$.
 
 
 
-### Yates 
+## Fisher
+
+[Fisher's exact test](https://en.wikipedia.org/wiki/Fisher%27s_exact_test), as its name implies, always gives an exact P value and works fine with small sample sizes. Fisher's test (unlike chi-square) is very hard to calculate by hand, but is easy to compute with a computer. 
+
+It can be done in R with the [fisher.test](https://www.r-bloggers.com/contingency-tables-%E2%80%93-fisher%E2%80%99s-exact-test/) function.
 
 
-### Fisher
+## Barnard
 
-Fisher's exact test, as its name implies, always gives an exact P value and works fine with small sample sizes. Fisher's test (unlike chi-square) is very hard to calculate by hand, but is easy to compute with a computer. 
+An alternative to Fisher's test is the [Barnard test](https://en.wikipedia.org/wiki/Barnard%27s_test). Fisher's test is said to be 'conditional' on the row and column totals, while Barnard's test is not. It examines the association of two categorical variables and is a more powerful alternative than Fisher's exact test for 2×2 contingency tables.
 
-
-
-
-### Barnard 
-
-An alternative to Fisher's test is the Barnard test. Fisher's test is said to be 'conditional' on the row and column totals, while Barnard's test is not. Mehta and Senchaudhuri explain the difference and why Barnard's test has more power (2). Berger modified this test to one that is easier to calculate yet more powerful. 
+It can be done in R with the [Barnard](https://cran.r-project.org/web/packages/Barnard/) package.
 
 
+# Survival distributions
 
-## 1.5 Survival distributions
+
+## Log-rank test
+
+In statistics, the [log-rank](https://en.wikipedia.org/wiki/Log-rank_test) test is a hypothesis test to compare the survival distributions of two samples. It is a nonparametric test and appropriate to use when the data are right skewed and censored (technically, the censoring must be non-informative).
+
+Tests if there is a difference between two or more survival curves. More information about survival analysis can be found [here](/statistics/survival/).
 
 
-### Log-rank test
+In the package *survival* the dataset *colon* contains data from one of the first successful trials of adjuvant chemotherapy for colon cancer. We want to know if the *sex* has any impact on the survival rate. The columns of interest in this case are:
+* time:	 days until event or censoring
+* sex: 1=male
+* status:	 censoring status
+```R
+> library(survival)
+> survdiff(Surv(time, status) ~ sex,data=colon, rho=0)
+Call:
+survdiff(formula = Surv(time, status) ~ sex, data = colon, rho = 0)
 
-In statistics, the log-rank test is a hypothesis test to compare the survival distributions of two samples. It is a nonparametric test and appropriate to use when the data are right skewed and censored (technically, the censoring must be non-informative).
+        N Observed Expected (O-E)^2/E (O-E)^2/V
+sex=0 890      444      436     0.136     0.259
+sex=1 968      476      484     0.123     0.259
+
+ Chisq= 0.3  on 1 degrees of freedom, p= 0.611 
+```
+This means that we cannot assume that the *sex* is independent from the distribution.
 

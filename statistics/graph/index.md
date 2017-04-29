@@ -5,6 +5,9 @@ excerpt:
 search_omit: false
 ---
 
+1. 
+{:toc}
+
 # Network Inference 
 
 The purpose of this section is to explain how to obtain a network of related elements from different data. We can have for example gene expression data where each row represents the gene expression level per each condition. Or we can have a computer network and see if from the correlation we can infer the network structure.
@@ -15,16 +18,16 @@ We can calculate the correlation and obtain the relations of different elements.
 \\[\rho_{X,Y} = \frac{cov(X,Y)}{\sigma_X\sigma_Y} \\]
 
 If we have an ordinal associaton, this means that instead of having the real numbers we have a sortered ranking with labels for the "first", "second", "third", etc... then we must use a [rank correlation](https://en.wikipedia.org/wiki/Rank_correlation). From all the available correlation coefficients, the most popular is the Speakman's rank correlation coefficient.
-The [Spearman correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient) is defined as the Pearson correlation coefficient between the ranked variables. The Kendall rank correlation coefficient is also quite popular. Commonly referred to as [Kendall's tau coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient) (after the Greek letter τ), is a statistic used to measure the ordinal association between two measured quantities
+The [Spearman correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient) is defined as the Pearson correlation coefficient between the ranked variables. The Kendall rank correlation coefficient is also quite popular. Commonly referred to as [Kendall's tau coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient) (after the Greek letter τ), is a statistic used to measure the ordinal association between two measured quantities.
 
-
+A good summary about network inference can be found [here](http://www.nathalievilla.org/doc/pdf/wikistat-network_compiled.pdf).
 
 ## Relevance network
 
 Correlation can be misleading, let's imagine that we have two functions:
 \\[y=2·x+1+\varepsilon_0\\]
 \\[z=2·x+1+\varepsilon_1\\]
-where $$\varepsilon_0$$ and $$\varepsilon_1$$ are additive white random noise. This means that the variable x is highly correlated with y and z. But there is also a high correlation between z and y. Obviously we are interested in knowing if the relation between y and z is a true relation or they are correlated with a third variable (the variable x in this case).
+where $$\varepsilon_0$$ and $$\varepsilon_1$$ are additive white random noise. This means that the variable x is highly correlated with y and z. But there is also a high correlation between z and y. Obviously we are interested in knowing if the relation between y and z is a true relation or if they are correlated with a third variable (the variable x in this case).
 
 ```R
 > set.seed(2807)
@@ -43,7 +46,7 @@ Try to find this relations is very common in bioinformatics where relations betw
 
 ### Partial correlation
 
-The [partial correlation](https://en.wikipedia.org/wiki/Partial_correlation) measures the degree of association between two random variables. It is the correlation that remains between two variables if the effect of the other variables has been regressed away.
+The [partial correlation](https://en.wikipedia.org/wiki/Partial_correlation) measures the degree of association between two random variables. It is the correlation that remains between two variables if the effect of the other variables have been regressed away.
 
 
 Formally, the partial correlation between $$y$$ and $$z$$ given a set of n controlling variables X = {X1, X2, ..., Xn}, written $$\rho_{zy·x}$$, is the correlation between the residuals $$R_z$$ and $$R_y$$ resulting from the linear regression of Z with X and of Y with X, respectively. In the [linear regression](/ml/linear_regression/) problem we are trying to obtain the optimum value of $$\beta$$ that minimizes the minimum quadratic error.
@@ -53,22 +56,71 @@ This gives a $$\beta$$ of:
 
 The first-order partial correlation (i.e. when n=1) is the difference between a correlation and the product of the removable correlations divided by the product of the coefficients of alienation of the removable correlations. 
 
+Gaussian Graphical Models assume that the edges between nodes follow a gaussian distribution. $$x\sim \mathcal{N}\left ( \mu , \Sigma  \right )$$ where $$\Sigma$$ is the covariance matrix and $$\mu$$ the median vector. From the previous example we can estimate the covariance and mean:
+```R
+> cov(cbind(x,y,z))
+          x        y        z
+x 0.9622105 1.947012 1.922462
+y 1.9470117 3.949001 3.888234
+z 1.9224621 3.888234 3.850623
+> colMeans(cbind(x,y,z))
+         x          y          z 
+0.01702236 1.05022003 1.03544251 
+```
 
-In Gaussian Graphical Models, the conditional dependency graph is estimated. This graph is defined as follows 
+To find the underlying relation between the variables we have to remove the undesired effects of the other variables. For example to calculate $$\rho_{zy·x}$$, as we said before we have to calculate the correlation between the residuals respect $$x$$. This can be easily done in R:
+```R
+> Ry_x<-lm(y~x)$residuals
+> Rz_x<-lm(z~x)$residuals
+> cor(Ry_x,Rz_x)
+[1] -0.1933699
+```
 
-### Gaussian Graphical Model
+Which means that between $$y$$ and $$z$$ there is no relation, the partial correlation is low. But there is a high partial correlation between $$y$$-$$x$$ and $$z$$-$$x$$ as expected:
+```R
+> Ry_z<-lm(y~z)$residuals
+> Rx_z<-lm(x~z)$residuals
+> cor(Ry_z,Rx_z)
+[1] 0.7801174
+> Rx_y<-lm(x~y)$residuals
+> Rz_y<-lm(z~y)$residuals
+> cor(Rx_y,Rz_y)
+[1] 0.7639094
+```
 
-#### LASSO
+This can also be calculated from the covariance matrix $$\Sigma$$ as explained [here](https://en.wikipedia.org/wiki/Partial_correlation#Using_matrix_inversion) and [here](https://en.wikipedia.org/wiki/Dependency_network). Its inverse, $$S=\Sigma^{-1}$$, is called the [precision matrix](https://en.wikipedia.org/wiki/Precision_(statistics)) and is related to the partial correlation by:
+\\[
+\rho_{ij}=-\frac{S_{ij}}{\sqrt{S_{ii}S_{jj}}}
+\\]
 
-#### CLIME
+We can check in R that this produces the same results as we had before:
+```R
+> S<-solve(cor(cbind(x,y,z)))
+> S
+          x          y          z
+x 1023.3645 -525.10123 -498.50230
+y -525.1012  442.72677   82.99785
+z -498.5023   82.99785  416.12163
+> -S[2,3]/sqrt(S[2,2]*S[3,3])
+[1] -0.1933699
+> -S[1,2]/sqrt(S[1,1]*S[2,2])
+[1] 0.7801174
+> -S[1,3]/sqrt(S[1,1]*S[3,3])
+[1] 0.7639094
+```
 
-#### TIGER
 
-#### Greedy
-
+The R package [GenNet](https://cran.r-project.org/web/packages/GeneNet/) provides the partial correlation function using a similar methodology.
 
 
-### Bayesian networks
+This method can be improved like any other least square estimator using the L1 norm [Lasso](https://en.wikipedia.org/wiki/Lasso_(statistics)) or the L2 norm [Ridge](https://en.wikipedia.org/wiki/Tikhonov_regularization) regularizations.
+The R package [glasso](https://cran.r-project.org/web/packages/glasso/) estimates a sparse inverse covariance matrix using lasso regularization.
+
+More information about Gaussian Graphical Models can be found [here](http://ir.hit.edu.cn/~jguo/docs/notes/report-in-princeton-research.pdf).
+
+
+
+## Bayesian networks
 
 Are be able to deal with directed graphs and more precisely,  with  Directed  Acyclic  Graphs. R package bnlearn.
 

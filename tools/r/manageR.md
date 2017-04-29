@@ -31,7 +31,7 @@ excerpt: vector, matrix, variables, NA
 * which.min
 
 ## Working with strings
-
+ 
 * substr(x, start, stop): Extract or replace substrings in a character vector
 * substring(x, start, stop=100000): Extract or replace substrings in a character vector
 * strsplit(ip, "\\.")  : Split the elements of a character vector ‘x’ into substrings according to the matches to substring ‘split’ within them.
@@ -73,4 +73,14 @@ excerpt: vector, matrix, variables, NA
 * intersect(x,y) : Returns elements of x that are in y
 * setdiff(x,y)   : Returns elements of x that are not in y
 * setequal(x,y)  : Returns alements of x
+
+
+## Dates
+* months(x) : Extract the month
+* weekdays(x) : Extract the weekday
+* as.POSIXlt(x)$mon
+* as.POSIXlt(x)$wday
+* as.POSIXlt(x)$year
+* lubridate::month(x)
+* 
 
