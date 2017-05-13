@@ -5,7 +5,7 @@ title: Optimization tricks
 
 # Microbenchmark
 
-The [microbenchmark](https://cran.r-project.org/web/packages/microbenchmark/) package allows to test the execution time of simple commands in R. It is also posible to graphically compare the results using plot or autoplot (with ggplot2). The firstone uses a box diagram and the second one generates a violin diagram.
+The [microbenchmark](https://cran.r-project.org/web/packages/microbenchmark/) package allows to test the execution time of simple commands in R. It is also posible to graphically compare the results using plot or autoplot (with ggplot2). The first one uses a box diagram and the second one generates a violin diagram.
 For example:
 ```R
 > library(microbenchmark)

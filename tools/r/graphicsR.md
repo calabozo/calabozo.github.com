@@ -1,12 +1,7 @@
 ---
 layout: default
-title: Useful R commands
+title: Graphics in R
 ---
 
 
-[Manage files](filesR.md)
-
-[Manage data](manageR.md)
-
-[Graphics](graphicsR.md)
 

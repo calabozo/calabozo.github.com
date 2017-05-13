@@ -12,5 +12,7 @@ title: Useful R commands
 
 [Graphics](graphicsR)
 
+[Optimization](optimizationTricksR)
+
 
 [Congiguration](configurationR)
