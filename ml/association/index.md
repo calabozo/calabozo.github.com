@@ -198,6 +198,15 @@ https://www.kaggle.com/c/titanic/download/train.csv
 
 
 
+# Sequence rules
+
+https://cran.r-project.org/web/packages/arulesSequences/arulesSequences.pdf
+
+https://en.wikibooks.org/wiki/Data_Mining_Algorithms_In_R/Sequence_Mining/SPADE
+
+Frequent Sequence Mining is used to discover a set of patterns shared among objects which have between them a specific order. For instance, a retail shop may possess a transaction database which specifies which products were acquired by each customer over time. In this case, the store may use Frequent Sequence Mining to find that 40% of the people who bought the first volume of Lord of the Rings came back to buy the second volume a month later. This kind of information may be used to support directed advertising campaigns or recommendation systems.
+
+https://www.r-bloggers.com/sequence-of-shopping-carts-in-depth-analysis-with-r-sequence-of-events/
 
 
 

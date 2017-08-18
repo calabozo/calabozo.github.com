@@ -29,6 +29,10 @@ excerpt: vector, matrix, variables, NA
 * any(x<0): to see if any of the elements of x are less than zero
 * all(x>0): to see if any of the elements of x are greater than zero
 * which.min
+* attach(df)/detach(df): Attaches to a dataframe. You do not longer need to access individual columns.
+* Hmisc::describe(df) : Better summary description
+* split(x,f): ‘split’ divides the data in the vector ‘x’ into the groups defined by ‘f’.
+* dummies package: Split factor in several boolean columns
 
 ## Working with strings
  

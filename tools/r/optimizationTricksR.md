@@ -3,6 +3,16 @@ layout: default
 title: Optimization tricks
 ---
 
+# Sytem.time
+
+The function *System.time* shows the execution time of the given function:
+```R
+> system.time(sum(rnorm(10e5)))
+   user  system elapsed 
+  0.080   0.000   0.079 
+```
+For a more robust measure use the *Microbenchmark* library.
+
 # Microbenchmark
 
 The [microbenchmark](https://cran.r-project.org/web/packages/microbenchmark/) package allows to test the execution time of simple commands in R. It is also posible to graphically compare the results using plot or autoplot (with ggplot2). The first one uses a box diagram and the second one generates a violin diagram.
@@ -20,9 +30,6 @@ Unit: microseconds
 > library(ggplot)
 > autoplot(mk)
 ```
-
-
-
 
 # Faster searchs in data frame:
 

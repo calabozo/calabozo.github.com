@@ -24,6 +24,8 @@ Many clustering algorithms use the concept of distance between data samples. Thi
 * [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance):  The Hamming distance between two strings of equal length is the number of positions at which the corresponding symbols are different.
 * [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance): The Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other.
 * [Gower similarity coefficient](http://www.clustan.talktalk.net/gower_similarity.html): It is a composite measure. It takes samples in which each dimension can be binary, factor variable, quantitative (ordinal) or numeric. The coefficient ranges between 0 and 1. More info [here](http://www.math.vu.nl/~sbhulai/papers/thesis-vandenhoven.pdf).
+* [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index): Also known as Tanimoto distance.
+* [Cosine distance](https://en.wikipedia.org/wiki/Cosine_similarity)
 
 
 # Cluster quality indexes
@@ -92,6 +94,17 @@ The [Davies–Bouldin](https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_inde
 DB={\frac {1}{\mid \mathcal{C} \mid}}\sum_{i=1}^{n}\max_{j\neq i}\left({\frac{\overline{d_i}+\overline{d_j}}{d(c_{i},c_{j})}}\right)
 \\]
 where n is the number of clusters, $$c_{x}$$ is the centroid of cluster $$x$$, $$\overline{d_x}$$ is the average distance of all elements in cluster $$x$$ to centroid $$c_{x}$$, and $$d(c_{i},c_{j})$$ is the distance between centroids $$c_{i}$$ and $$c_{j}$$. Since algorithms that produce clusters with low intra-cluster distances (high intra-cluster similarity) and high inter-cluster distances (low inter-cluster similarity) will have a low Davies–Bouldin index, **the clustering algorithm that produces a collection of clusters with the smallest Davies–Bouldin index is considered the best algorithm** based on this criterion.
+
+## ANOVA based
+
+DT=DF+DR
+var(Total)=Var(cluster)+Var(residual)
+  |           |             |
+  Known       known         unknown
+
+F=var(cluster)/(var(Total)-var(cluster))
+
+We choose the model with higher F-score
 
 
 ## Other clustering indexes

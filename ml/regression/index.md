@@ -185,4 +185,7 @@ The [general linear model](https://en.wikipedia.org/wiki/General_linear_model) a
 
 https://en.wikipedia.org/wiki/Generalized_linear_model
 
+# Stepwise regression
 
+In statistics, stepwise regression is a method of fitting regression models in which the choice of predictive variables is carried out by an automatic procedure.[1][2][3][4] In each step, a variable is considered for addition to or subtraction from the set of explanatory variables based on some prespecified criterion. Usually, this takes the form of a sequence of F-tests or t-tests, but other techniques are possible, such as adjusted R2, Akaike information criterion, Bayesian information criterion, Mallows's Cp, PRESS, or false discovery rate.
+https://en.wikipedia.org/wiki/Stepwise_regression
