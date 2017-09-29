@@ -77,17 +77,108 @@ For the same samples **this confidence interval is larger than the one obtained 
 
 ## Proportion confidence interval
 
-We have $n$ independent experiments which can generate a successful event with probability $p$. The estimated probability is  $$\hat{p}=\frac{n_s}{n}$$ where $$n_s$$ is the number of successful events. We want to estimate the confidence interval of this estimated probability.
+We have $$n$$ independent experiments which can generate a successful event with probability $$p$$. The estimated probability is  $$\hat{p}=\frac{n_s}{n}$$ where $$n_s$$ is the number of successful events. We want to estimate the coverage probability for $$\alpha$$. The [coverage probability](https://en.wikipedia.org/wiki/Coverage_probability) of a technique for calculating a confidence interval is the proportion of the time that the interval contains the true value of interest. This is also known as [Binomial proportion confidence interval](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval). 
+A comparison of different methods can be found [here](http://stats.org.uk/statistical-inference/Newcombe1998.pdf).
 
-TWO-SIDED CONFIDENCE INTERVALS FOR THE SINGLE PROPORTION: COMPARISON OF SEVEN METHODS
-http://stats.org.uk/statistical-inference/Newcombe1998.pdf
+success
 
-INTERVAL ESTIMATION FOR THE DIFFERENCE BETWEEN INDEPENDENT PROPORTIONS: COMPARISON OF ELEVEN METHODS
-https://pdfs.semanticscholar.org/370b/92bc4f61fedfa64e1b50e7a10c7a6dde0a19.pdf
+All the R examples in this section are going to be initialized with the following code:
+```R
+> data_sample<-runif(1000, min = 0, max = 1) > 0.7
+> n<-length(data_sample)
+> ns<-sum(data_sample)
+> p_<-ns/n
+> print(paste("Probability:",p_," Number success:",ns," Total events:",n))
+[1] "Probability: 0.295  Number success: 295  Total events: 1000"
+```
 
-### Binomial proportion confidence interval
-https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval
-binom.test
+
+### Asymptotic Gaussian approximation
+
+Also known as Wald method, the error margin is symmetric and given by the formula:
+
+\\[
+\Delta\hat{p} = Q(\alpha) \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+\\]
+
+where $$Q(\alpha)$$ is the value required by a two-tailed [gaussian](https://en.wikipedia.org/wiki/Q-function) cumulative density function to obtain the probability $$\alpha$$. 
+But this simple formula leads to two deffects:
+
+* _overshoot_: One problem is that for low proportions when $$n_s$$ is small the calculated lower limit can be below zero (\Delta\hat{p}>\hat{p}). And for $$\hat{p}$$ close to 1 the upper limit can exceed one. 
+* _degeneracy_: Also zero width interval occurs when p=0 or 1. The use of a [continuity correction factor](https://www.jstor.org/stable/2531951) $$1/(2n)$$ as proposed. The interval will be: $$\Delta\hat{p} = Q(\alpha) \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+```R
+> print(paste("95% confidence interval",p_-E,p_+E))
+[1] "95% confidence interval 0.266734696211895 0.323265303788105"
+> prop.test(ns,n)
+
+	1-sample proportions test with continuity correction
+
+data:  ns out of n, null probability 0.5
+X-squared = 167.28, df = 1, p-value < 2.2e-16
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.2670782 0.3245185
+sample estimates:
+    p 
+0.295 
+```
+
+
+### Clopper-Pearson interval
+
+The _exact_ method of [Clopper and Pearson](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval) eliminates the aberrations found in the gaussian approximation. But this method id known to be unnecessarily conservative. In this case the confidence is not symmetric, it is given by the formula: $$(inf S_{\geq }, sup S_{\leq })$$:
+\\[ S_{\geq } =  \left\\{ \theta  \mid P[Bin(n;\theta) \geq n_s ] > \frac{\alpha}{2} \right\\} \\]
+\\[ S_{\leq } =  \left\\{ \theta  \mid P[Bin(n;\theta) \leq n_s ] > \frac{\alpha}{2} \right\\} \\]
+
+```R
+> binom.test(ns,n)
+
+	Exact binomial test
+
+data:  ns and n
+number of successes = 295, number of trials = 1000, p-value < 2.2e-16
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.2668729 0.3243396
+sample estimates:
+probability of success 
+                 0.295 
+```
+
+### Wilson score interval 
+
+
+It is a refinement of the simple asymptotic method, is basically satisfactory; $$\theta$$ is imputed its true asymptotic variance $$\theta(1-\theta)/n$$ and the resulting quadratic is solved for $$\hat{p}$$. This is more plausible than use of the estimated variance $$\hat{p}(1-\hat{p})/n$$. This removes the symmetry of coverage as well as avoidance of aberrations. It has the theoretical advantage amongst asymptotic methods of being derived from the ‘efficient score’ approach. It has a logit scale symmetry property, with consequent log scale symmetry for certain derived intervals. Closed-form solutions for lower and upper limits are available, both without and with continuity correction.
+
+```R
+> library(binom)
+> binom.confint(ns, n, conf.level = 0.95, methods = "wilson")
+  method   x    n  mean     lower     upper
+1 wilson 295 1000 0.295 0.2675624 0.3240066
+```
+
+### More methods
+
+There are more methods that can be used like likelihood based, logit, agresti-coull, etc... some of them can be inspected with the R [binom](https://cran.r-project.org/web/packages/binom/) package.
+
+```R
+> library(binom)
+> binom.confint(ns, n, conf.level = 0.95, methods = "all")
+          method   x    n      mean     lower     upper
+1  agresti-coull 295 1000 0.2950000 0.2675516 0.3240174
+2     asymptotic 295 1000 0.2950000 0.2667347 0.3232653
+3          bayes 295 1000 0.2952048 0.2670897 0.3235493
+4        cloglog 295 1000 0.2950000 0.2670138 0.3234765
+5          exact 295 1000 0.2950000 0.2668729 0.3243396
+6          logit 295 1000 0.2950000 0.2675420 0.3240294
+7         probit 295 1000 0.2950000 0.2673800 0.3238658
+8        profile 295 1000 0.2950000 0.2672838 0.3237651
+9            lrt 295 1000 0.2950000 0.2672915 0.3237770
+10     prop.test 295 1000 0.2950000 0.2670782 0.3245185
+11        wilson 295 1000 0.2950000 0.2675624 0.3240066
+```
+
 
 
 # Comparing two groups quantitative of data
