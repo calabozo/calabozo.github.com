@@ -17,6 +17,7 @@ http://www.datasciencecentral.com/profiles/blogs/hitchhiker-s-guide-to-data-scie
 
 http://www.stat.cmu.edu/~cshalizi/350-2006/
 
+
 ## Comprehensive list of data science resources
 
 General list of resources
@@ -57,6 +58,9 @@ http://www.sthda.com/english/wiki/r-software
 * R packages
 * Text mining
 
+In-depth introduction to machine learning in 15 hours of expert videos:
+
+https://www.r-bloggers.com/in-depth-introduction-to-machine-learning-in-15-hours-of-expert-videos/
 
 ## Libraries
 

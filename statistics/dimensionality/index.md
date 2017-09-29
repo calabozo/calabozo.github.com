@@ -14,7 +14,7 @@ https://www.r-bloggers.com/computing-and-visualizing-lda-in-r/
 
 ## Principal Component Analysis
 
-PCA is mathematically defined[3] as an orthogonal linear transformation that transforms the data to a new coordinate system such that the greatest variance by some projection of the data comes to lie on the first coordinate (called the first principal component), the second greatest variance on the second coordinate, and so on.
+PCA is mathematically defined as an orthogonal linear transformation that transforms the data to a new coordinate system such that the greatest variance by some projection of the data comes to lie on the first coordinate (called the first principal component), the second greatest variance on the second coordinate, and so on.
 Another way to characterise the principal components transformation is therefore as the transformation to coordinates which diagonalise the empirical sample covariance matrix.
 
 
@@ -33,5 +33,12 @@ If we add additional orthogonality constraint on H {\displaystyle H} H, i.e., H 
 
 [Vector quantization](https://en.wikipedia.org/wiki/Vector_quantization) (VQ) is a classical quantization technique from signal processing that allows the modeling of probability density functions by the distribution of prototype vectors. It was originally used for data compression. It works by dividing a large set of points (vectors) into groups having approximately the same number of points closest to them. Each group is represented by its centroid point, as in k-means and some other clustering algorithms.
 
+
+## t-SNE
+
+[t-distributed stochastic neighbor embedding (t-SNE)](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding) is a nonlinear dimensionality reduction technique that is particularly well-suited for embedding high-dimensional data into a space of two or three dimensions, which can then be visualized in a scatter plot. Specifically, it models each high-dimensional object by a two- or three-dimensional point in such a way that similar objects are modeled by nearby points and dissimilar objects are modeled by distant points.  The technique can be implemented via Barnes-Hut approximations, allowing it to be applied on large real-world datasets.
+
+https://cran.r-project.org/web/packages/Rtsne/Rtsne.pdf
+https://nlml.github.io/in-raw-numpy/in-raw-numpy-t-sne/
 
 

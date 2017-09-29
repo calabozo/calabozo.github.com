@@ -12,9 +12,11 @@ search_omit: false
 
 # Confidence Intervals
 
+## Gaussian distribution
+
 We have an array of data, we want to calculate the mean and its interval confidence assuming a gaussian variable.
 
-## Known variance
+### Known variance
 
 From the array of data we can calculate the mean $$E[X]$$. The variance is known and equal to $$\sigma^2$$, and the **standard error of the mean** is $$\sigma^2_M=\frac{\sigma^2}{n}$$ where n is the number of samples of our data.
 
@@ -44,7 +46,7 @@ In R this will look like this:
 ```
 
 
-## Unknown variance
+### Unknown variance
 
 From the array of data we can calculate the mean $$E[X]$$. The variance is unknown, it will be calculated as $$Var[X]$$ (this is the [unbiased estimator](https://en.wikipedia.org/wiki/Bias_of_an_estimator) of the variance) and the standard error of the mean is $$s^2_M=\frac{VAR[X]}{n}$$ where n is the number of samples of our data.
 
@@ -71,6 +73,21 @@ In R this will look like this:
 [1] "The mean is 6.55115534470227 with an error of ±0.959080458598336"
 ```
 For the same samples **this confidence interval is larger than the one obtained with gaussian**.
+
+
+## Proportion confidence interval
+
+We have $n$ independent experiments which can generate a successful event with probability $p$. The estimated probability is  $$\hat{p}=\frac{n_s}{n}$$ where $$n_s$$ is the number of successful events. We want to estimate the confidence interval of this estimated probability.
+
+TWO-SIDED CONFIDENCE INTERVALS FOR THE SINGLE PROPORTION: COMPARISON OF SEVEN METHODS
+http://stats.org.uk/statistical-inference/Newcombe1998.pdf
+
+INTERVAL ESTIMATION FOR THE DIFFERENCE BETWEEN INDEPENDENT PROPORTIONS: COMPARISON OF ELEVEN METHODS
+https://pdfs.semanticscholar.org/370b/92bc4f61fedfa64e1b50e7a10c7a6dde0a19.pdf
+
+### Binomial proportion confidence interval
+https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval
+binom.test
 
 
 # Comparing two groups quantitative of data

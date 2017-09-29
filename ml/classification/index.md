@@ -13,6 +13,48 @@ About Gini
 http://stats.stackexchange.com/questions/92419/relative-importance-of-a-set-of-predictors-in-a-random-forests-classification-in
 
 
+```R
+> require(rpart)
+> require(rpart.plot)
+
+> idx<-sample(1:nrow(iris),round(nrow(iris)*0.75))
+> train_data<-iris[idx,]
+> test_data <-iris[-idx,]
+
+> r_model<-rpart(Species~ . ,data=train_data)
+
+
+```
+
+```R
+> r_model
+n= 112 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+1) root 112 71 setosa (0.36607143 0.33928571 0.29464286)  
+  2) Petal.Length< 2.45 41  0 setosa (1.00000000 0.00000000 0.00000000) *
+  3) Petal.Length>=2.45 71 33 versicolor (0.00000000 0.53521127 0.46478873)  
+    6) Petal.Width< 1.75 40  3 versicolor (0.00000000 0.92500000 0.07500000) *
+    7) Petal.Width>=1.75 31  1 virginica (0.00000000 0.03225806 0.96774194) *
+
+> rpart.plot(r_model)
+
+```
+
+The root node has 112 elements in the following proportions setosa(37%), versicolor(34%) and virginica(29%). 
+This node has two childs, depending on the petal lenght. If it is smaller than 2.45 then it is a setosa with 100% probability, there are 41 elements. If the petal length is bigger or equal to 2.45 then it is a versicolor(54%) or a virginica(46%). 
+![png](rpart.png)
+
+
+```R
+> data.frame(predict(r_model,test_data),test_data)
+> 
+```
+
+
+
 ### Random Forest
 
 http://www.listendata.com/2014/11/random-forest-with-r.html
