@@ -5,16 +5,19 @@ excerpt: ""
 search_omit: false
 ---
 
-## Definitions
+1. 
+{:toc}
 
-**Survival Function**  
+# Definitions
+
+### Survival Function
 It is the survival probability given a point of time, so it is a function monotically decreasing in the range [0,1]. It can be estimated with the [Kaplan Meier](https://en.wikipedia.org/wiki/Kaplan%E2%80%93Meier_estimator) estimator:
 
-\\[\hat{S}(t) = \prod_{t_i \leq t}\frac{n_i-d_i}{n_i} \\]
+\\[\hat{S}(t) = \prod_{i: t_i \leq t}\frac{n_i-d_i}{n_i} \\]
 
-Where $$n_j$$ is the original population at risk at time $$t_j$$, and $$d_j$$ is the number of events that happen to that population at $$t_j$$. This formula is equivalent to:
-\\[\hat{S}(t) = \prod_{t_i \leq t}\left(1-\hat{h}(t_i)\right) \\]
-where $$\hat{h}(t)$$ is the estimator of the *hazard function*.
+Where $$n_i$$ is the original population at risk at time $$t_i$$, and $$d_i$$ is the number of events that happen to that population at $$t_i$$. This formula is equivalent to:
+\\[\hat{S}(t) = \prod_{i: t_i \leq t}\left(1-\hat{h}(t_i)\right) \\]
+where $$\hat{h}(t)$$ is the estimator of the [hazard function](#density-function).
 
 
 The variance of this estimator can be calculated with the *Greenwood's formula*:
@@ -22,16 +25,18 @@ The variance of this estimator can be calculated with the *Greenwood's formula*:
 \\[Var[\hat{S}(t)]=\hat{S}(t)^2\sum_{t_i \leq t}\frac{d_i}{n_i·(n_i-d_i)} \\]
 
 
-There is a matrix version of the Kaplan Meier estimator called the [Aalen-Johansens estimator](https://cran.r-project.org/web/packages/survival/vignettes/compete.pdf). It can be used to estimate the tranition probability matrix of a Markov process with a finite number of states. 
+There is a matrix version of the Kaplan Meier estimator called the [Aalen-Johansens estimator](https://cran.r-project.org/web/packages/survival/vignettes/compete.pdf). It can be used to estimate the transition probability matrix of a Markov process with a finite number of states. 
 
 
 
 
-**Density Function**  
-It is defined as the minus derivative of the *survival function*. The probability of happening event at time t, it is an *unconditional probability*: 
+### Density Function
+
+It is defined as the minus derivative of the *survival function*. The probability of an event happens at time t, it is an *unconditional probability*: 
 \\[f(t)=-\frac{\partial}{\partial t}S(t),\; \;   t>0 \\]
 
-**Hazard function**  
+### Hazard function 
+
 Also known as the *incidence function*, measures the risk of having an event in a short interval $$[t,t+\Delta t]$$ inmediately after $$t$$ given that is has survived up to $$t$$. Given that there has no be an event until time $$t$$, it measures the probability of an event at time t. It is conventionally denoted by $$\lambda(t)$$ or $$h(t)$$:
 \\[\lambda(t)=h(t)=\lim_{\Delta t\rightarrow 0}\frac{P(t \leq T <t+\Delta t) | T \geq t)}{\Delta t}=
 \lim_{\Delta t\rightarrow 0}\frac{P(t \leq T <t+\Delta t)}{\Delta t·S(t)}=\frac{f(t)}{S(t)}\\]
@@ -42,7 +47,8 @@ In the *discrete* time the hazard function is defined as:
 \\[\hat{h}[t_i] = \frac{d_i}{n_i} \\]
 with $$d_{i}$$ the number of events at $$t_{i}$$ and $$n_{i}$$ the total individuals at risk at time $$t_{i}$$.
 
-**Cumulative hazard function**  
+### Cumulative hazard function
+
 It is the integral of the *hazard function*:  
 \\[H(t)=\int_{0}^{t}{h(s)ds}\;,\;t\geq 0 \\]
 
@@ -51,20 +57,21 @@ The non-parametric estimator [Nelson–Aalen](https://en.wikipedia.org/wiki/Nels
 with $$d_{i}$$ the number of events at $$t_{i}$$ and $$n_{i}$$ the total individuals at risk at time $$t_{i}$$.
 
 
-**Cumulative incidence**  
+### Cumulative incidence
+
 Probability that a particular event has ocured before a given time.
 \\[CI(t)= \int_{0}^{t}{f(s)ds} = \int_{0}^{t}{S(s)\lambda(s)ds} \;,\;t\geq 0 \\]
 
 
-## Function examples
+# Function examples
 
 
 ### Exponential distribution
-The [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) is used when we have a constant event rate over the time, this means that the probabilty to have an event will not depend on when the past. This means that there is no aging. In this case the *hazard function* will be constant:
+The [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) is used when we have a constant event rate over the time, this means that the probabilty to have an event will not depend on the past. This means that there is no aging. In this case the [hazard function](#hazard-function) will be constant:
 \\[h(t)=\lambda,\;\;\lambda> 0 \\]
-And the *cumulative hazard* function is:
+And the [cumulative hazard](#cumulative-hazard-function) function is:
 \\[H(t)=\int_{0}^{t}{h(s)ds}=t·\lambda,\;\;\;\lambda> 0,t\geq 0 \\]
-The *survival function* and the *density function* can both be calculated solving the following differential equation:
+The [survival function](#survival-function) and the [density function](#density-function) can both be calculated solving the following differential equation:
 \\[f(t)=-\frac{\partial}{\partial t}S(t)=S(t)·h(t)=S(t)·\lambda\\]
 \\[S(t)=e^{-\lambda t}\\]
 \\[f(t)=-\frac{\partial}{\partial t}S(t)=\lambda·e^{-\lambda t}\\]
@@ -76,22 +83,22 @@ The [poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution) e
 ### Rayleigh distribution
 The [rayleigh distribution](https://en.wikipedia.org/wiki/Rayleigh_distribution) arise when we have a linear *aging rate*. For example:
 \\[h(t)=\lambda·t,\;\;\lambda> 0,t\geq 0 \\]
-Then the *cumulative hazard* function is:
+Then the [cumulative hazard](#cumulative-hazard-function) function is:
 \\[H(t)=\int_{0}^{t}{h(s)ds}=\frac{\lambda}{2}t^2,\;\;\;\lambda> 0,t\geq 0 \\]
-As in the previous case the *survival function* and the *density function* can both be calculated solving the following differential equation:
+As in the previous case the *survival function* and the [density function](#density-function) can both be calculated solving the following differential equation:
 \\[f(t)=-\frac{\partial }{\partial t}S(t)=S(t)·h(t)=S(t)·\lambda · t\\]
 \\[S(t)=e^{-t^2·\lambda/2}\\]
 \\[f(t)=-\frac{\partial}{\partial t}S(t)=\lambda·t·e^{-t^2·\lambda/2}\\]
 
-Always for $$\lambda> 0,t\geq 0 $$. Where $$f(t)$$ is a rayleigh function
+Always for $$\lambda> 0,t\geq 0 $$. Where $$f(t)$$ is a rayleigh function.
 
 
 ### Weibull distribution
-The [weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution) is a generalization of the exponential and the rayleigh distribution. The *density function* has the following form:
+The [weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution) is a generalization of the exponential and the rayleigh distribution. The  [density function](#density-function) has the following form:
 \\[f(t)=\lambda·k(\lambda·t)^{k-1}·e^{-(\lambda t)^k},\;\;\;\lambda> 0,t\geq 0 \\]
-And the *survival function* is:
+And the [survival function](#survival-function) is:
 \\[S(t)=e^{-(\lambda t)^k},\;\;\;\lambda> 0,t\geq 0 \\]
-So the *hazard function* is:
+So the [hazard function](#hazard-function) is:
 \\[h(t)=\frac{f(t)}{S(t)}=\lambda·k(\lambda·t)^{k-1},\;\;\;\lambda> 0,t\geq 0  \\]
 where $$k$$ is the shape parameter and $$1/\lambda$$ is the scale parameter of the distribution. So looking at the *hazard function* we can see how the $$k$$ parameter affects the time to failure:
 * A value **k<1** indicates that the hazard function decreases with time, it is a monotonically decreasing function, this means that we have *infant mortality*. As long as time increases the time to failure decreases.
@@ -115,7 +122,7 @@ Then we can plot the survival function, that is the percentage of original eleme
 ```
 ![png](survivaHalfLive10.png)
 
-Assuming that it is a *weibull function* we can try to extract the parameters for the scale ($$1/lambda$$) and the shape (k):
+Assuming that it is a *weibull function* we can try to extract the parameters for the scale $$(1/\lambda)$$ and the shape (k):
 ```R
 > library(survival)
 > fit<-phreg(formula=Surv(interval,event)~1,data=df,dist="weibull")
@@ -137,21 +144,51 @@ We can compare this model with the one parametrically estimated with the [Cox mo
 
 In this example we will study the data *oldmort*. The data consists of old age life histories from 1 January 1860 to 31 december 1880, 21 years. Only (parts of) life histories above age 60 is considered.
 
-
+```R
+> require(eha)
 > S <- Surv(with(oldmort,enter - 60, exit - 60, event))
-> fit.cox <- coxreg(S ~ sex + civ + birthplace, data = oldmort)
+> fit.cox <- coxreg(S ~ sex + civ + birthdate + birthplace, data = oldmort)
 > drop1(fit.cox, test = "Chisq")
-Single
+Single term deletions
 
-> fit.wb <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist="weibull")
-> fit.ln <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "lognormal")
-> fit.ll <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "loglogistic")
-> fit.gm <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "gompertz")
-> fit.ev <- phreg(S ~ sex + civ + birthplace, data = oldmort, dist = "ev")
+Model:
+S ~ sex + civ + birthdate + birthplace
+           Df    AIC    LRT  Pr(>Chi)    
+<none>         95455                     
+sex         1  95504   51.3 7.938e-13 ***
+civ         2  96017  566.5 < 2.2e-16 ***
+birthdate   1 100486 5033.2 < 2.2e-16 ***
+birthplace  2  95451    0.0    0.9894    
+---
+Signif. codes:  0 ?***? 0.001 ?**? 0.01 ?*? 0.05 ?.? 0.1 ? ? 1
+```
+This *drop1* function tell us that *birthplace* is not relevant to calculate the survival function.
 
+```R
+> phreg(S ~ sex + civ, data = oldmort, dist="weibull")
+Call:
+phreg(formula = S ~ sex + civ, data = oldmort, dist = "weibull")
 
+Covariate          W.mean      Coef Exp(Coef)  se(Coef)    Wald p
+sex 
+            male    0.444     0         1           (reference)
+          female    0.556     0.106     1.111     0.026     0.000 
+civ 
+       unmarried    0.086     0         1           (reference)
+         married    0.548     0.527     1.694     0.047     0.000 
+           widow    0.366    -0.258     0.773     0.047     0.000 
 
-Then
+log(scale)                    4.229               0.005     0.000 
+log(shape)                    2.280               0.008     0.000 
+
+Events                    6495 
+Total time at risk        416115 
+Max. log. likelihood      -21590 
+LR test statistic         804.54 
+Degrees of freedom        3 
+Overall p-value
+```
+This tests shows that the higher survival rate is found among female, and among married people, those groups have the higher coefficients.
 
 
 

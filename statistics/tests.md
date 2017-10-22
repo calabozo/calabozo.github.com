@@ -12,13 +12,15 @@ search_omit: false
 
 # Confidence Intervals
 
+A [confidence interval](https://en.wikipedia.org/wiki/Confidence_interval) is a type of interval estimate (of a population parameter) that is computed from the observed data. The confidence level is the frequency (i.e., the proportion) of possible confidence intervals that contain the true value of their corresponding parameter. In other words, if confidence intervals are constructed using a given confidence level in an infinite number of independent experiments, the proportion of those intervals that contain the true value of the parameter will match the confidence level.
+
 ## Gaussian distribution
 
-We have an array of data, we want to calculate the mean and its interval confidence assuming a gaussian variable.
+We have an array of data, we want to calculate the mean and its confidence interval assuming a gaussian variable.
 
 ### Known variance
 
-From the array of data we can calculate the mean $$E[X]$$. The variance is known and equal to $$\sigma^2$$, and the **standard error of the mean** is $$\sigma^2_M=\frac{\sigma^2}{n}$$ where n is the number of samples of our data.
+From the dataset we can calculate the mean $$E[X]$$. The variance is known and equal to $$\sigma^2$$, and the **standard error of the mean** is $$\sigma^2_M=\frac{\sigma^2}{n}$$ where n is the number of samples in our dataset.
 
 The confidence interval for the mean is given by the following formula:  
 \\[\text{Lower limit}=E[X]-Q(p)·\sigma_M=E[X]-Q(p)·\frac{\sigma}{\sqrt(n)} \\]
@@ -48,7 +50,7 @@ In R this will look like this:
 
 ### Unknown variance
 
-From the array of data we can calculate the mean $$E[X]$$. The variance is unknown, it will be calculated as $$Var[X]$$ (this is the [unbiased estimator](https://en.wikipedia.org/wiki/Bias_of_an_estimator) of the variance) and the standard error of the mean is $$s^2_M=\frac{VAR[X]}{n}$$ where n is the number of samples of our data.
+From the dataset we can calculate the mean $$E[X]$$. The variance is unknown, it will be calculated as $$Var[X]$$ (this is the [unbiased estimator](https://en.wikipedia.org/wiki/Bias_of_an_estimator) of the variance) and the standard error of the mean is $$s^2_M=\frac{VAR[X]}{n}$$ where n is the number of samples in our dataset.
 
 The confidence interval for the mean is given by the following formula:
 \\[ \text{Lower limit}=E[X]-t(p,n-1)·s_M=E[X]-t(p,n-1)·\frac{\sqrt{Var[X]} }{\sqrt{n}} \\]
@@ -70,17 +72,28 @@ In R this will look like this:
 > upl <- m+error
 > lowl <- m-error
 > print(paste0("The mean is ",m," with an error of ±",error))
-[1] "The mean is 6.55115534470227 with an error of ±0.959080458598336"
+[1] "The mean is 6.9792395278108 with an error of ±1.35218720808538"
+> t.test(x=X,conf.level=0.95)
+
+	One Sample t-test
+
+data:  X
+t = 10.803, df = 19, p-value = 1.495e-09
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 5.627052 8.331427
+sample estimates:
+mean of x
+  6.97924 
 ```
 For the same samples **this confidence interval is larger than the one obtained with gaussian**.
 
 
-## Proportion confidence interval
+## Confidence interval for proportions
 
 We have $$n$$ independent experiments which can generate a successful event with probability $$p$$. The estimated probability is  $$\hat{p}=\frac{n_s}{n}$$ where $$n_s$$ is the number of successful events. We want to estimate the coverage probability for $$\alpha$$. The [coverage probability](https://en.wikipedia.org/wiki/Coverage_probability) of a technique for calculating a confidence interval is the proportion of the time that the interval contains the true value of interest. This is also known as [Binomial proportion confidence interval](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval). 
 A comparison of different methods can be found [here](http://stats.org.uk/statistical-inference/Newcombe1998.pdf).
 
-success
 
 All the R examples in this section are going to be initialized with the following code:
 ```R
@@ -101,11 +114,11 @@ Also known as Wald method, the error margin is symmetric and given by the formul
 \Delta\hat{p} = Q(\alpha) \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
 \\]
 
-where $$Q(\alpha)$$ is the value required by a two-tailed [gaussian](https://en.wikipedia.org/wiki/Q-function) cumulative density function to obtain the probability $$\alpha$$. 
-But this simple formula leads to two deffects:
+where $$Q(\alpha)$$ is the value required by a two-tailed [gaussian](https://en.wikipedia.org/wiki/Q-function) cumulative density function to obtain the probability $$1-\alpha$$. 
+This simple formula leads to two aberrations:
 
-* _overshoot_: One problem is that for low proportions when $$n_s$$ is small the calculated lower limit can be below zero (\Delta\hat{p}>\hat{p}). And for $$\hat{p}$$ close to 1 the upper limit can exceed one. 
-* _degeneracy_: Also zero width interval occurs when p=0 or 1. The use of a [continuity correction factor](https://www.jstor.org/stable/2531951) $$1/(2n)$$ as proposed. The interval will be: $$\Delta\hat{p} = Q(\alpha) \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+* _overshoot_: One problem is that for low proportions when $$n_s$$ is small the calculated lower limit can be below zero ($$\Delta\hat{p}>\hat{p}$$). And for $$\hat{p}$$ close to 1 the upper limit can exceed one. 
+* _degeneracy_: Also zero width interval occurs when p=0 or 1. The use of a [continuity correction factor](https://www.jstor.org/stable/2531951) $$1/(2n)$$ as proposed. The interval will be: $$\Delta\hat{p} = Q(\alpha) \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}+\frac{1}{2n}$$
 
 ```R
 > print(paste("95% confidence interval",p_-E,p_+E))
@@ -127,7 +140,7 @@ sample estimates:
 
 ### Clopper-Pearson interval
 
-The _exact_ method of [Clopper and Pearson](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval) eliminates the aberrations found in the gaussian approximation. But this method id known to be unnecessarily conservative. In this case the confidence is not symmetric, it is given by the formula: $$(inf S_{\geq }, sup S_{\leq })$$:
+The _exact_ method of [Clopper and Pearson](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval) eliminates the aberrations found in the gaussian approximation. But this method is known to be unnecessarily conservative. In this case the confidence is not symmetric, it is given by the formula: $$(inf S_{\geq }, sup S_{\leq })$$:
 \\[ S_{\geq } =  \left\\{ \theta  \mid P[Bin(n;\theta) \geq n_s ] > \frac{\alpha}{2} \right\\} \\]
 \\[ S_{\leq } =  \left\\{ \theta  \mid P[Bin(n;\theta) \leq n_s ] > \frac{\alpha}{2} \right\\} \\]
 
@@ -178,18 +191,81 @@ There are more methods that can be used like likelihood based, logit, agresti-co
 10     prop.test 295 1000 0.2950000 0.2670782 0.3245185
 11        wilson 295 1000 0.2950000 0.2675624 0.3240066
 ```
+## Confidence interval for ratios
 
+This section applies to the ratio of two measured quantities, where we are interested in providing some confidence interval for this ratio. A good introduction about this problem can be found in [Ratios: A short guide to confidence limits and proper use](https://arxiv.org/pdf/0710.2024.pdf) which states the following:
+
+The main problem arises from the fact that the function $$x/y$$ has a singularity at $$y=0$$. Therefore, if the denominator is noisy and too close to zero the estimate for the ratio goes astray. This problem is so serious that the probability distribution of the ratio shows unusual behavior. For example, there neither exists the expected value nor the variance for the ratio if the denominator is normally distributed. We can only specify pseudo-values for the expected value and the variance in cases where the denominator is far from zero.
+
+A further example for the unusual behavior of ratios is the [Cauchy distribution](https://en.wikipedia.org/wiki/Cauchy_distribution). This occurs if, in addition to a normally distributed denominator, the numerator is also normally distributed (and both are independent and have an expected value of zero). The probability–density of the Cauchy distribution looks like that of a normal distribution, but with heavier tails. Neither the expected value nor the variance exist for this distribution. Even worse, if we calculate the mean of independent, identically Cauchy–distributed variables we find that the mean follows the same Cauchy distribution as each of the individual variables. That is, the mean is no more informative than any of the individual values. This is in strong contrast to the typical behavior of random variables for which expected value and variance exist. Typically, calculating the mean of independent, identically distributed random variables leads to a decrease of the variance and therefore allows us to use the mean as a better estimate for the expected value.
+
+
+### Fieller's methods
+
+[Fieller's method](https://en.wikipedia.org/wiki/Fieller%27s_theorem) allows the calculation of a confidence interval of the ratio of two means from two normal distributions. The confidence interval is not symmetric, so you calculate lower and upperbounds. It is implemented in R in the [mratios](https://cran.r-project.org/web/packages/mratios/) library:
+
+
+```R
+> library(mratios)
+> x <- rnorm(100,mean = 5, sd = 2)
+> y <- rnorm(100,mean = 10, sd = 5)
+> 
+> t.test.ratio(x, y)
+
+	Ratio t-test for unequal variances
+
+data:  x and y
+t = -8.5701, df = 136.09, p-value = 2.005e-14
+alternative hypothesis: true ratio of means is not equal to 1
+95 percent confidence interval:
+ 0.4737759 0.6103289
+sample estimates:
+    mean x     mean y        x/y 
+ 5.4903944 10.2261656  0.5368967 
+```
+
+
+### Bootstrapping
+
+[Bootstrapping](https://en.wikipedia.org/wiki/Bootstrapping_(statistics)#Deriving_confidence_intervals_from_the_bootstrap_distribution) is a method for estimating any test statistic that relies on random sampling with replacement. Bootstrapping allows assigning measures of accuracy (defined in terms of bias, variance, confidence intervals, prediction error or some other such measure) to sample estimates.
+
+It uses the measured sample as a basis for re-sampling with the goal to create an approximation to the population distribution. For our ratio problem with N paired measurements,
+bootstrap methods would draw a large number of samples (with replacement) from the set of the measured values $$(x_i, y_i)$$. Each sample has the same size as the original sample and we would calculate for each sample the ratio $$\frac{\bar{x}}{\bar{y}}$$. The distribution of these re-sampled ratios is the basis for the calculation of the confidence intervals.
+
+```R
+> library(boot)
+> set.seed(12345)
+> df<-data.frame(x=rnorm(100,mean = 5, sd = 2),y=rnorm(100,mean = 10, sd = 5))
+> xyratio<-function(df,i){  mean(df$x[i])/mean(df$y[i]) }
+> bootratio <- boot(df, xyratio, R=500)
+> boot.ci(bootratio,conf=0.95)
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 500 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = bootratio, conf = 0.95)
+
+Intervals : 
+Level      Normal              Basic         
+95%   ( 0.4708,  0.5994 )   ( 0.4677,  0.6003 )  
+
+Level     Percentile            BCa          
+95%   ( 0.4735,  0.6061 )   ( 0.4696,  0.6039 )  
+Calculations and Intervals on Original Scale
+> plot(bootratio)
+```
+![png](./bootstrappingratio.png)
 
 
 # Comparing two groups quantitative of data
 
 ## Student's t-test
 
-The [t-Test](https://en.wikipedia.org/wiki/Student's_t-test) is used when you have two groups of data and you want to know if the **mean of both groups is the same or not**. We have two hypotesis:
+The [t-Test](https://en.wikipedia.org/wiki/Student's_t-test) is used when you have two groups of data and you want to know if the **mean of both groups is the same or not**. We have two hypothesis:
 \\[H_0 : \mu(X) = \mu(Y) \\]
 \\[H_1 : \mu(X) \ne \mu(Y) \\]
 
-We start the same asumption:
+We start with the following assumptions:
 1. The samples have been randomly selected from their populations.
 2. The populations are normally distributed. (if not see [Wilcoxon-Mann-Whitney test](#wilcoxon-mann-whitney-test))
 3. Both populations have the same variance. (if not see [Welch's t-test](#welchs-t-test))
@@ -197,7 +273,7 @@ We start the same asumption:
 
 
 
-We first calculate the mean and the variance of both groups. The t statistic to test whether the $$H_0$$ hypotesis is true can be calculated as follows:
+We first calculate the mean and the variance of both groups. The t statistic to test whether the $$H_0$$ hypothesis is true can be calculated as follows:
 \\[ t=\frac{E[X]-E[Y]}{s_p·\sqrt{\frac{1}{n_x}+\frac{1}{n_y}}} \\]
 
 Where $$s_p$$ is the [pooled standard deviation](https://en.wikipedia.org/wiki/Pooled_variance), it is calculated as:
@@ -364,7 +440,7 @@ Warning message:
 In wilcox.test.default(x = c(21.4, 18.7, 18.1, 14.3, 24.4, 22.8,  :
   cannot compute exact p-value with ties
 ```
-We can assume that the gas mileage data from the column *mtcars$mpg* for automated cars (*mtcars$am==1*) is independent to the one for non-automated cars (*mtcars$am==1*) because the low p-value leave us to reject the $$H_0$$ hypothesis.
+We can assume that the gas mileage data from the column *mtcars$mpg* for automated cars (*mtcars$am==1*) is independent to the one for non-automated cars (*mtcars$am==0*) because the low p-value leave us to reject the $$H_0$$ hypothesis.
 
 
 
@@ -372,7 +448,7 @@ We can assume that the gas mileage data from the column *mtcars$mpg* for automat
 
 ## Fisher variance F-test
 
-The Fisher [F-Test](https://en.wikipedia.org/wiki/F-test_of_equality_of_variances) is used when you have **two** groups of data and you want to know if the **variance** of both groups is the same or not. This means that the variables are [homoscedastic](https://en.wikipedia.org/wiki/Homoscedasticity). We have two hypotesis:
+The Fisher [F-Test](https://en.wikipedia.org/wiki/F-test_of_equality_of_variances) is used when you have **two** groups of data and you want to know if the **variance** of both groups is the same. This means that the variables are [homoscedastic](https://en.wikipedia.org/wiki/Homoscedasticity). We have two hypothesis:
 \\[H_0 : \sigma(X) = \sigma(Y) \\]
 \\[H_1 : \sigma(X) \ne \sigma(Y) \\]
 
@@ -406,14 +482,14 @@ ratio of variances
           1.240517 
 
 ```
-Thus in this case with a p-value of 0.6924 we can accept the null hypotesis and assume that the two variances are homogeneous.
+Thus in this case with a p-value of 0.6924 we can accept the null hypothesis and assume that the two variances are homogeneous.
 
 
 # Comparing several groups of data
 
 ## one-way ANOVA
 
-We use [one-way ANOVA](https://en.wikipedia.org/wiki/One-way_analysis_of_variance) to **compare the means of three or more groups of data**. It is also said that compares one dependent variable (the input data) with an independent variable that has more than two levels; each level, also called factor will identify each of the different groups of data. The *null hypothesis* assumes that all the groups have the same mean values:
+We use [one-way ANOVA](https://en.wikipedia.org/wiki/One-way_analysis_of_variance) to **compare the means of three or more groups of data**. It is also said that it compares one **dependent variable (the input data)** with **an independent variable that has more than two levels**; each level, also called factor will identify each of the different groups of data. The *null hypothesis* assumes that all the groups have the same mean values:
 \\[H_0 : \mu_1 = \mu_2 = ... = \mu_k \\]
 \\[H_1 : \text{at leas one pair }\mu_j\ne \mu_i \\]
 These hypothesis examine the model fit the model: $$y_{ij}=\mu_j+\varepsilon_{ij}$$, where:
@@ -427,7 +503,7 @@ These hypothesis examine the model fit the model: $$y_{ij}=\mu_j+\varepsilon_{ij
 
 The F statistics of the [omnibus test](https://en.wikipedia.org/wiki/Omnibus_test#Omnibus_Tests_in_One_Way_Analysis_of_Variance) in one-way anova:
 \\[
-F=\frac{\sum_{j=1}^{k} n_j \left ( \bar{y_j}-\bar{y} \right )^2 / \left ( k-1 \right ) }{\sum_{j=1}^{k} \sum_{i=1}^{n_j} \left ( y_{ij}-\bar{y_j} \right )^2 / \left ( n-k \right ) }
+F=\frac{\sum_{j=1}^{k} n_j \left ( \bar{y_j}-\bar{y} \right )^2 / \left ( k-1 \right ) }{\sum_{j=1}^{k} \sum_{i=1}^{n_j} \left ( y_{ij}-\bar{y_j} \right )^2 / \left ( n-k \right ) }=\frac{\text{Sum sq residual among each group mean}}{\text{Sum sq residual within group}}
 \\]
 
 
@@ -475,7 +551,7 @@ We can calculate in R the one-way ANOVA for 3 gaussian random variables:
 [1] 5.815527e-05
 > 
 ```
-The p-value is really low, so we can reject the null hypotesis. This means that not all the groups have the same mean.
+The p-value is really low, so we can reject the null hypothesis. This means that not all the groups have the same mean.
 
 The same procedure can be easily done with the build-in R function *aov*:
 ```R
@@ -491,11 +567,12 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 ### Turkey's test
 
 [Tukey's range test](https://en.wikipedia.org/wiki/Tukey%27s_range_test), also known as Tukey's HSD (honest significant difference) test, can be used to **find the means that are significant different from each of the groups**. Tukey's test compares the means of every group to the means of every other group and identify any difference between two means greater than the expected standard error.
-It is equivalent to a pairwise t-student test with a small but important difference. When doing Turkeys test homogeneity is assumed, so the variance is calculated with all the samples from all the groups. When doing pairwise t-student the variance for each group is calculated independently which will lead to a less robust result.
+It is equivalent to a pairwise **t-student test** with a small but **important difference**. When doing Turkeys test homogeneity is assumed, so the variance is calculated with all the samples from all the groups. When doing pairwise t-student the variance for each group is calculated independently which will lead to a less robust result.
 
 We can calculate the Tukey test in R with the data from the last example:
 ```
-> TukeyHSD(aov( value ~ cl, data=df))
+> tky <- TukeyHSD(aov( value ~ cl, data=df))
+> tky
   Tukey multiple comparisons of means
     95% family-wise confidence level
 
@@ -506,20 +583,42 @@ $cl
 2-1 -5.8671081 -9.181346 -2.552870 0.0001375
 3-1 -5.1484894 -8.245158 -2.051821 0.0003666
 3-2  0.7186187 -2.174285  3.611523 0.8268771
-
 ```
 This means that group 3 and 2 have a high probability to have the same mean, and the mean of group 1 differs.
+This can be printed in a fancy way:
+```R
+> tky.result<-data.frame(tky$cl)
+> cn <-sort(unique(df$cl))
+> resm <- matrix(NA, length(cn),length(cn))
+> rownames(resm) <- cn
+> colnames(resm) <- cn
+> resm[lower.tri(resm) ] <- round(tky.result$p.adj,4)
+> resm[upper.tri(resm) ] <- t(resm)[upper.tri(resm)] 
+> diag(resm) <- 1
+> library(ggplot2)
+> library(reshape2)
+> dfResm <- melt(resm)
+> ggplot(dfResm, aes(x=Var1, y=Var2, fill=value))+
+>   geom_tile(colour = "black")+
+>   geom_text(aes(label=paste(round(value*100,0),"%")),size = 3) +
+>   scale_fill_gradient(low = "white",high = "steelblue")+
+>   ylab("Class")+xlab("Class")+theme_bw()+
+>   theme(axis.text.x = element_text(angle = 90, hjust = 1),legend.position="none")
+
+```
+![png](./tukeysample.png)
+
+
 
 ## Welch's anova
 
-Does not require the homogeneity of variances assumption. It is based on the [Welch's t-test](# Welch's t-test).
-
+Does not require the homogeneity of variances assumption. It is based on the [Welch's t-test](#welchs-t-test).
 In R it can be invoked using the command *oneway.test* with the parameter *var.equal=FALSE*. The syntax is similar to *aov*.
 
 
 ### Kruskal-Wallis H Test 
 
-The Kruskal–Wallis test by ranks, Kruskal–Wallis H test, or One-way ANOVA on ranks is a **non-parametric method for testing whether samples originate from the same distribution**. It is used for comparing two or more independent samples of equal or different sample sizes. It extends the [Wilcoxon-Mann-Whitney test](# Wilcoxon-Mann-Whitney test).
+The Kruskal–Wallis test by ranks, Kruskal–Wallis H test, or One-way ANOVA on ranks is a **non-parametric method for testing whether samples originate from the same distribution**. It is used for comparing two or more independent samples of equal or different sample sizes. It extends the [Wilcoxon-Mann-Whitney test](#wilcoxon-mann-whitney-test).
 
 This can be implemented in R with the command *kruskal.test*. An example of how to use it can be found at [r-tutor](http://www.r-tutor.com/elementary-statistics/non-parametric-methods/kruskal-wallis-test).
 
@@ -528,7 +627,7 @@ This can be implemented in R with the command *kruskal.test*. An example of how 
 ## two-way ANOVA
 
 The [two-way ANOVA](https://en.wikipedia.org/wiki/Two-way_analysis_of_variance) is an extension of the [one-way ANOVA](#one-way ANOVA) where there are two variables (factors) which interact with the data. 
-In this case the data is given in a matrix form where cell will have the samples corresponding to the two dependent factors, one given by the row number and other for the column number. 
+In this case the data is given in a matrix form where each cell will have the samples corresponding to the two dependent factors, one given by the row number and other for the column number. 
 
 
 These hypothesis try to fit the data to the following model: $$y_{i}=\beta_0+\beta_1x_{i1}+\beta_2x_{i2}+\beta_3x_{i1}x_{i2}+\varepsilon_{i}=\widehat{y_i}+\varepsilon_{i}$$
@@ -588,11 +687,13 @@ It is a generalization of the [two-way anova](# two-way ANOVA).
 
 # Contingency tables
 
+A [contingency table](https://en.wikipedia.org/wiki/Contingency_table) (also known as a cross tabulation or crosstab) is a type of table in a matrix format that displays the (multivariate) frequency distribution of the variables.
+
 ## Pearson's Chi-square
 
 The [Pearson's chi-square](https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test) test can be used to **test for independence between categorical data**.
 * The *null hypothesis* for this test is that the variables are independent (i.e. that there is no statistical association).
-* The alternative hypothesis is that there is a statistical relationship or association between the two variables.
+* The alternative hypothesis is that there is a statistical relationship or association between the variables.
 
 These are the assumptions for this test:
 * Simple random sample
@@ -600,7 +701,9 @@ These are the assumptions for this test:
 * Expected categories count:  When this assumption is not met, [Yates's correction](https://en.wikipedia.org/wiki/Yates%27s_correction_for_continuity) is applied.
 * Independence: chi-squared cannot be used to test correlated data (like matched pairs or panel data). In those cases you should use [McNemar's test](https://en.wikipedia.org/wiki/McNemar%27s_test)
 
+### One variable
 
+In this case, the observations consists of values from a single independent variable (eg: a rolling dice).
 The value of the test-statistic is:
 \\[
 \chi^2 = \sum_{i=1}^{n} \frac{(O_i-E_i)^2}{E_i} = N \sum_{i=1}^{n} \frac{(O_i/N-p_i)^2}{p_i} 
@@ -616,7 +719,14 @@ where:
 This chi-squared statistic is used to calculate a p-value by comparing the value of the statistic to a chi-squared distribution. 
 For the case of a [multinomial goodness fit](https://en.wikipedia.org/wiki/Multinomial_test) the number of degrees of freedom is $$n-1$$.
 
-Let's imagine that we want to check if a 4-sided dice. We roll it 40 times and the observed number of times each side appears is 10,7,9,14:
+Let's imagine that we want to check if a 4-sided dice. We roll it 40 times and the observed number of times each side appears is:
+
+{: .table-border}
+|**1**|**2**|**3**|**4**|
+|---|---|---|---|
+| 10| 7 | 9 | 14|
+
+
 ```R
 > observed<-c(10,7,9,14)
 > N<-sum(observed)
@@ -626,9 +736,17 @@ Let's imagine that we want to check if a 4-sided dice. We roll it 40 times and t
 > pvalue<-1-pchisq(test,length(observed)-1)
 > pvalue
 [1] 0.4574895
-```
-The p-value to accept null hypotesis is really high, so we can discard $$H_0$$ and assume that the dice is not fair. The function *chisq.test* from R can be used for this purpose.
+> chisq.test(observed)
 
+	Chi-squared test for given probabilities
+
+data:  observed
+X-squared = 2.6, df = 3, p-value = 0.4575
+
+```
+The p-value to accept null hypothesis is really high, so we can accept $$H_0$$ and assume that the dice is fair. The function *chisq.test* from R can be used for this purpose.
+
+### Two variables
 
 In this case, an "observation" consists of the values of two outcomes and the null hypothesis is that the occurrence of these outcomes is statistically independent. Each observation is allocated to one cell of a two-dimensional array of cells (called a contingency table) according to the values of the two outcomes. If there are r rows and c columns in the table, the *theoretical frequency* for a cell, given the hypothesis of independence, is
 \\[
@@ -640,13 +758,62 @@ In this case the value of the test-statistic is:
 \\]
 In this case the number of degrees of freedom is $$(r-1)(c-1)$$.
 
+Image that we have three groups of people A, B and C, with different number of persons. And we try to see if there is a difference in the groups between cats and dogs. We have the following contingency table:
+
+{: .table-border}
+| |**A**|**B**|**C**|
+|---|---|---|---|
+|cats | 100| 205 | 95  |
+|dogs | 203| 401 | 205 |
+
+```R
+> M <- as.table(rbind(c(100, 205, 95), c(203, 401, 205)))
+> dimnames(M) <- list(animal = c("cats", "dogs"), group = c("A","B", "C"))
+> M
+      group
+animal   A   B   C
+     F 100 205  95
+     M 203 401 205
+> chisq.test(M)
+
+	Pearson's Chi-squared test
+
+data:  M
+X-squared = 0.42478, df = 2, p-value = 0.8087
+```
+The high *p-value* of 0.81 indicates that we can accept $$H_{0}$$, that means, that there are no differences between groups in cats and dogs.
+If we modify one cell for the group **C** and dogs we obtain a different result, in this case we have tho reject the $$H_{0}$$ and assume that there are differences between cats and dogs for the following group.
+
+{: .table-border}
+| |**A**|**B**|**C**|
+|---|---|---|---|
+|cats | 100| 205 | 95  |
+|dogs | 203| 401 | 275 |
+
+
+```R
+> M <- as.table(rbind(c(100, 205, 95), c(203, 401, 275)))
+> chisq.test(M)$p.value
+[1] 0.02174804
+```
 
 
 ## Fisher
 
-[Fisher's exact test](https://en.wikipedia.org/wiki/Fisher%27s_exact_test), as its name implies, always gives an exact P value and works fine with small sample sizes. Fisher's test (unlike chi-square) is very hard to calculate by hand, but is easy to compute with a computer. 
+[Fisher's exact test](https://en.wikipedia.org/wiki/Fisher%27s_exact_test), as its name implies, always gives an exact P value, to differentiate with the chi-square test which is only an approximation, and works fine with small sample sizes. Fisher's test (unlike chi-square) is very hard to calculate by hand, but is easy to compute with a computer. 
 
 It can be done in R with the [fisher.test](https://www.r-bloggers.com/contingency-tables-%E2%80%93-fisher%E2%80%99s-exact-test/) function.
+
+```R
+> M <- as.table(rbind(c(100, 205, 95), c(203, 401, 275)))
+> fisher.test(M)
+
+	Fisher's Exact Test for Count Data
+
+data:  M
+p-value = 0.02023
+alternative hypothesis: two.sided
+```
 
 
 ## Barnard
@@ -670,8 +837,18 @@ In the package *survival* the dataset *colon* contains data from one of the firs
 * time:	 days until event or censoring
 * sex: 1=male
 * status:	 censoring status
+
+
 ```R
 > library(survival)
+> head(colon[,c("time","status","sex")])
+  time status sex
+1 1521      1   1
+2  968      1   1
+3 3087      0   1
+4 3087      0   1
+5  963      1   0
+6  542      1   0
 > survdiff(Surv(time, status) ~ sex,data=colon, rho=0)
 Call:
 survdiff(formula = Surv(time, status) ~ sex, data = colon, rho = 0)

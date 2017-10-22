@@ -5,9 +5,11 @@ excerpt:
 search_omit: false
 ---
 
+1. 
+{:toc}
 
 
-Clustering is an unsupervised learning strategy where the goal is to group elements which share similar characteristics. There are different algorithms to deal with this problem and there is no one which is better that others, it depends on the data to be clustered. 
+[Clustering](https://en.wikipedia.org/wiki/Cluster_analysis) is an unsupervised learning strategy where the goal is to group elements which share similar characteristics. There are different algorithms to deal with this problem and there is no one which is better that others, it depends on the data to be clustered. 
 
 
 # Distance measured
@@ -15,17 +17,20 @@ Clustering is an unsupervised learning strategy where the goal is to group eleme
 Many clustering algorithms use the concept of distance between data samples. This distance is a measure of how related those samples are to each other.
 
 
-* [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance): $$\left \|  a-b \right \|_p = \left ( \sum_i \mid a_i-b_i \mid^p \right )^\frac{1}{p}$$
-* [Manhattan distance](https://en.wikipedia.org/wiki/Taxicab_geometry): $$\left \|  a-b \right \| =  \sum_i \left \| a_i-b_i \right \| $$
-* [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance): $$\left \|  a-b \right \|_2 = \sqrt{\sum_i \left ( a_i-b_i \right )^2}$$
-* [Maximum distance](https://en.wikipedia.org/wiki/Uniform_norm): $$\left \|  a-b \right \|_\infty = max_i \mid  a_i-b_i \mid$$
-* [Mahalanobis distance](https://en.wikipedia.org/wiki/Mahalanobis_distance): $$\sqrt{\left ( a-b \right )^\intercal \sigma_{a,b}^{-2}  \left ( a-b \right )}$$
+* [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance): $$\left \|  \vec{a}-\vec{b} \right \|_p = \left ( \sum_i \mid a_i-b_i \mid^p \right )^\frac{1}{p}$$
+* [Manhattan distance](https://en.wikipedia.org/wiki/Taxicab_geometry): $$\left \|  \vec{a}-\vec{b} \right \| =  \sum_i \left \| a_i-b_i \right \| $$
+* [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance): $$\left \|  \vec{a}-\vec{b} \right \|_2 = \sqrt{\sum_i \left ( a_i-b_i \right )^2}$$
+* [Maximum distance](https://en.wikipedia.org/wiki/Uniform_norm): $$\left \|  \vec{a}-\vec{b} \right \|_\infty = max_i \mid  a_i-b_i \mid$$
+* [Mahalanobis distance](https://en.wikipedia.org/wiki/Mahalanobis_distance): $$d(\vec{a},\vec{b})=\sqrt{\left ( \vec{a}-\vec{b} \right )^\intercal \sigma_{a,b}^{-2}  \left ( \vec{a}-\vec{b} \right )}$$
 * [Correlation distance](https://en.wikipedia.org/wiki/Distance_correlation): $$\rho_{a,b} = \frac{\sigma_{a,b}^2}{\sigma_a\sigma_b}$$
 * [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance):  The Hamming distance between two strings of equal length is the number of positions at which the corresponding symbols are different.
 * [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance): The Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other.
 * [Gower similarity coefficient](http://www.clustan.talktalk.net/gower_similarity.html): It is a composite measure. It takes samples in which each dimension can be binary, factor variable, quantitative (ordinal) or numeric. The coefficient ranges between 0 and 1. More info [here](http://www.math.vu.nl/~sbhulai/papers/thesis-vandenhoven.pdf).
-* [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index): Also known as Tanimoto distance.
-* [Cosine distance](https://en.wikipedia.org/wiki/Cosine_similarity)
+* [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index): Also known as Tanimoto distance. $$J(A,B)=\frac{\| A  \cap  B \|}{ \| A \cup B \|}$$
+* [Cosine distance](https://en.wikipedia.org/wiki/Cosine_similarity): $$d(\vec{a},\vec{b}) = \frac{ \vec{a} \cdot \vec{b} }{ \left \| \vec{a} \right \|_2 \left \| \vec{b} \right \|_2 }$$
+
+
+
 
 
 # Cluster quality indexes
@@ -95,24 +100,23 @@ DB={\frac {1}{\mid \mathcal{C} \mid}}\sum_{i=1}^{n}\max_{j\neq i}\left({\frac{\o
 \\]
 where n is the number of clusters, $$c_{x}$$ is the centroid of cluster $$x$$, $$\overline{d_x}$$ is the average distance of all elements in cluster $$x$$ to centroid $$c_{x}$$, and $$d(c_{i},c_{j})$$ is the distance between centroids $$c_{i}$$ and $$c_{j}$$. Since algorithms that produce clusters with low intra-cluster distances (high intra-cluster similarity) and high inter-cluster distances (low inter-cluster similarity) will have a low Davies–Bouldin index, **the clustering algorithm that produces a collection of clusters with the smallest Davies–Bouldin index is considered the best algorithm** based on this criterion.
 
-## ANOVA based
+## Calinski-Harabasz index
 
-DT=DF+DR
-var(Total)=Var(cluster)+Var(residual)
-  |           |             |
-  Known       known         unknown
+[ANOVA](/statistics/tests/index.html#comparing-several-groups-of-data) and the [F-test](/statistics/tests/index.html#fisher-variance-f-test) can be used to find an optimum value for number of clusters in which divide the data. This method is called Calinski-Harabasz criterion. The formula is:
+\\[
+CH(k)=\frac {B(k)/(k-1)}{W(k)/(n-k)}
+\\]
+Where $$n$$ is the total number of datapoints in the dataset, $$k$$ is the number of clusters, $$W(k)$$ is the within cluster sum squared error, $$W(k)=\sum_{j=1}^{k} \sum_{i=1}^{n_j} \left ( y_{ij}-\bar{y_j} \right )^2$$ and $$B(k)$$ is between cluster variation $$B(k)=\sum_{j=1}^{k} n_j \left ( \bar{y_j}-\bar{y} \right )^2$$.
+This is actually Fisher's F-test used in ANOVA, it is called the multivariate pseudo F because it does not take into account possible covariations between variables. 
 
-F=var(cluster)/(var(Total)-var(cluster))
+We will choose the model with the higher $$CH(k)$$ value. The function *index.G1*  in the package [clusterCrit](https://cran.r-project.org/web/packages/clusterCrit] calculates this index.
 
-We choose the model with higher F-score
 
 
 ## Other clustering indexes
 
 More clustering indexes like:
 
-* More cluester
-* Calinski-Harabasz
 * Baker-Hubert
 * Hubert-Levine
 * Krzanowski-Lai
@@ -178,26 +182,45 @@ The basic idea is to find a clustering structure that minimizes a certain error 
 
 ## Density based methods
 
-In density-based clustering, clusters are defined as areas of higher density than the remainder of the data set. Objects in these sparse areas - that are required to separate clusters - are usually considered to be noise and border points.
+In density-based clustering, clusters are defined as areas of higher density than the remainder of the data set. It can discover clusters of arbitrary shape. Objects in these sparse areas - that are required to separate clusters - are usually considered to be noise and border points. It is not an iterative proces, based on some initial density parameters it converges in only one scan because it only examine the local region to justify the density.
+
 
 #### DBSCAN
 
-Density-based spatial clustering of applications with noise ([DBSCAN](https://en.wikipedia.org/wiki/DBSCAN)).
- It is a density-based clustering algorithm: given a set of points in some space, it groups together points that are closely packed together (points with many nearby neighbors), marking as outliers points that lie alone in low-density regions (whose nearest neighbors are too far away).
+Density-Based Spatial Clustering of Applications with Noise ([DBSCAN](https://en.wikipedia.org/wiki/DBSCAN)).
+It is a density-based clustering algorithm: given a set of points in some space, it groups together points that are closely packed together (points with many nearby neighbors), marking as outliers points that lie alone in low-density regions (whose nearest neighbors are too far away).
 
 #### OPTICS
 
-Its basic idea is similar to DBSCAN, but it addresses one of DBSCAN's major weaknesses: the problem of detecting meaningful clusters in data of varying density. In order to do so, the points of the database are (linearly) ordered such that points which are spatially closest become neighbors in the ordering. Additionally, a special distance is stored for each point that represents the density that needs to be accepted for a cluster in order to have both points belong to the same cluster.
+Ordering points to identify the clustering structure ([OPTICS](https://en.wikipedia.org/wiki/OPTICS_algorithm)). Its basic idea is similar to DBSCAN, but it addresses one of DBSCAN's major weaknesses: the problem of detecting meaningful clusters in data of varying density. In order to do so, the points of the database are (linearly) ordered such that points which are spatially closest become neighbors in the ordering. Additionally, a special distance is stored for each point that represents the density that needs to be accepted for a cluster in order to have both points belong to the same cluster.
 
 
 ## Model-based clustering methods
 
 The clustering model most closely related to statistics is based on distribution models. Clusters can then easily be defined as objects belonging most likely to the same distribution. A convenient property of this approach is that this closely resembles the way artificial data sets are generated: by sampling random objects from a distribution.
 
+One example can be the [Expectation maximization](https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm) algorithm.
+
 ## Grid-based methods
 
 
-## Soft-computing methods
+The [grid-based clustering](http://locus.siam.org/doi/abs/10.1137/1.9780898718348.ch12) approach differs from the conventional clustering algorithms in that it is concerned not with the data points but with the value space that surrounds the data points. In general, a typical grid-based clustering algorithm consists of the following five basic steps (Grabusts and Borisov, 2002):
+
+1. Creating the grid structure, i.e., partitioning the data space into a finite number of cells.
+1. Calculating the cell density for each cell.
+1. Sorting of the cells according to their densities.
+1. Identifying cluster centers.
+1. Traversal of neighbor cells.
+
+#### STING
+
+The spatial area is divided into rectangle cells, which are represented by a hierarchical structure. Let the root of the hierarchy be at level 1, its children at level 2, etc. The number of layers could be obtained by changing the number of cells that form a higher-level cell. A cell in level i corresponds to the union of the areas of its children in level i + 1. In the algorithm STING, each cell has 4 children and each child corresponds to one quadrant of the parent cell. Only two-dimensional spatial space is considered in this algorithm. 
+
+
+#### CLIQUE
+
+[Clique clustering](https://arxiv.org/abs/1411.4274) is the problem of partitioning the vertices of a graph into disjoint clusters, where each cluster forms a [clique](https://en.wikipedia.org/wiki/Clique_(graph_theory)) in the graph, while optimizing some objective function. In online clustering, the input graph is given one vertex at a time, and any vertices that have previously been clustered together are not allowed to be separated. The goal is to maintain a clustering with an objective value close to the optimal solution. 
+
 
 
 
