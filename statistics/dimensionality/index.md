@@ -15,7 +15,7 @@ https://www.r-bloggers.com/computing-and-visualizing-lda-in-r/
 ## Principal Component Analysis
 
 PCA is mathematically defined as an orthogonal linear transformation that transforms the data to a new coordinate system such that the greatest variance by some projection of the data comes to lie on the first coordinate (called the first principal component), the second greatest variance on the second coordinate, and so on.
-Another way to characterise the principal components transformation is therefore as the transformation to coordinates which diagonalise the empirical sample covariance matrix.
+Another way to characterize the principal components transformation is therefore as the transformation to coordinates which diagonalize the empirical sample covariance matrix.
 
 
 https://www.r-bloggers.com/computing-and-visualizing-pca-in-r/

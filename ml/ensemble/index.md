@@ -19,7 +19,7 @@ http://amunategui.github.io/smote/
 
 # Boosting
 
-[Boosting](https://en.wikipedia.org/wiki/Boosting_(machine_learning)) involves incrementally building an ensemble by training each new model instance to emphasize the training instances that previous models mis-classified. In some cases, boosting has been shown to yield better accuracy than bagging, but it also tends to be more likely to over-fit the training data. This algorithm familiy rely on training several *weak lerners* which are algorithms that have a poor response (but better than purely random). The output of this *weak learners* is combined with different weights dependeing on the *weak learners* accuracy.
+[Boosting](https://en.wikipedia.org/wiki/Boosting_(machine_learning)) involves incrementally building an ensemble by training each new model instance to emphasize the training instances that previous models mis-classified. In some cases, boosting has been shown to yield better accuracy than bagging, but it also tends to be more likely to over-fit the training data. This algorithm family rely on training several *weak learners* which are algorithms that have a poor response (but better than purely random). The output of this *weak learners* is combined with different weights depending on the *weak learners* accuracy.
 
 
 ## Adaboost
@@ -29,7 +29,7 @@ This meta-algorithm is used when we want to improve the quality of a learning al
 # Unbalanced samples
 
 ## Undersampling
-  In the training do not sample all the elements from the mayoritary class. 
+  In the training do not sample all the elements from the majority class. 
   In the test I do not make undersampling. 
 ```R
 caret::downSample
@@ -37,7 +37,7 @@ caret::downSample
 
 ## Oversampling
 
-Create new samples from the minority class, bootstrap con reemplazo. Tienes más veces el mismo caso
+Create new samples from the minority class, bootstrap with replacement. 
 ```R
 upSample
 ```

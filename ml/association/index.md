@@ -172,7 +172,7 @@ The R code to calculate this Apriori rules follows:
 
 ```
 
-A more practical exercise can be done using the Titanic dataset from Kaggle. This file contains passenger list of the people in the Titanic with some extra data like age, class, boarding city, etc... We are trying to get a rule which tell us if a passanger survived or not based on the age and class.
+A more practical exercise can be done using the Titanic dataset from Kaggle. This file contains passenger list of the people in the Titanic with some extra data like age, class, boarding city, etc... We are trying to get a rule which tell us if a passenger survived or not based on the age and class.
 
 
 

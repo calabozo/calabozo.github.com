@@ -5,7 +5,7 @@ title: Regression models
 
 # Linear regression
 
-[Linear regression](https://en.wikipedia.org/wiki/Linear_regression) is an approach for modeling the relationship beteween a *scalar* dependent variable (for no scalar see [general linear model](#GLM)). Given a dataset with $$n$$ statistical units:
+[Linear regression](https://en.wikipedia.org/wiki/Linear_regression) is an approach for modeling the relationship between a *scalar* dependent variable (for no scalar see [general linear model](#GLM)). Given a dataset with $$n$$ statistical units:
 \\[
 \left \\{ y_i,x_{i1},x_{i2},\cdots,x_{ip} \right \\}_{i=1}^n
 \\]
@@ -49,7 +49,7 @@ The purpose of this regression is to find the optimum values for the p-vector $$
 
 Also known as general linear model (not to be confused with the generalized linear model)
 
-In a linear regression model we try to solve the following ecuation:
+In a linear regression model we try to solve the following equation:
 
 
 
@@ -129,7 +129,7 @@ grid()
 
 
 ```R
-Another way to do this is using the Moore–Penrose pseudoinverse matrix
+Another way to do this is using the Moore-Penrose pseudoinverse matrix
 ```
 
 
@@ -187,7 +187,7 @@ https://en.wikipedia.org/wiki/Generalized_linear_model
 
 # Stepwise regression
 
-In statistics, stepwise regression is a method of fitting regression models in which the choice of predictive variables is carried out by an automatic procedure.[1][2][3][4] In each step, a variable is considered for addition to or subtraction from the set of explanatory variables based on some prespecified criterion. Usually, this takes the form of a sequence of F-tests or t-tests, but other techniques are possible, such as adjusted R2, Akaike information criterion, Bayesian information criterion, Mallows's Cp, PRESS, or false discovery rate.
+In statistics, stepwise regression is a method of fitting regression models in which the choice of predictive variables is carried out by an automatic procedure.[1][2][3][4] In each step, a variable is considered for addition to or subtraction from the set of explanatory variables based on some pre-specified criterion. Usually, this takes the form of a sequence of F-tests or t-tests, but other techniques are possible, such as adjusted R2, Akaike information criterion, Bayesian information criterion, Mallows's Cp, PRESS, or false discovery rate.
 https://en.wikipedia.org/wiki/Stepwise_regression
 
 

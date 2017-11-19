@@ -37,12 +37,12 @@ It is defined as the minus derivative of the *survival function*. The probabilit
 
 ### Hazard function 
 
-Also known as the *incidence function*, measures the risk of having an event in a short interval $$[t,t+\Delta t]$$ inmediately after $$t$$ given that is has survived up to $$t$$. Given that there has no be an event until time $$t$$, it measures the probability of an event at time t. It is conventionally denoted by $$\lambda(t)$$ or $$h(t)$$:
+Also known as the *incidence function*, measures the risk of having an event in a short interval $$[t,t+\Delta t]$$ immediately after $$t$$ given that is has survived up to $$t$$. Given that there has no be an event until time $$t$$, it measures the probability of an event at time t. It is conventionally denoted by $$\lambda(t)$$ or $$h(t)$$:
 \\[\lambda(t)=h(t)=\lim_{\Delta t\rightarrow 0}\frac{P(t \leq T <t+\Delta t) | T \geq t)}{\Delta t}=
 \lim_{\Delta t\rightarrow 0}\frac{P(t \leq T <t+\Delta t)}{\Delta t·S(t)}=\frac{f(t)}{S(t)}\\]
 
 In the *continuous* realm this function can have any value greater than 0, but in the *discrete* domain its value is between 0 and 1. 
-which means that to experience an event at $$t$$ you first have to survive to that time. This is a difference with the density function which is an *unconditional* probabilty while the hazard function is *conditional*.
+which means that to experience an event at $$t$$ you first have to survive to that time. This is a difference with the density function which is an *unconditional* probability while the hazard function is *conditional*.
 In the *discrete* time the hazard function is defined as:
 \\[\hat{h}[t_i] = \frac{d_i}{n_i} \\]
 with $$d_{i}$$ the number of events at $$t_{i}$$ and $$n_{i}$$ the total individuals at risk at time $$t_{i}$$.
@@ -59,7 +59,7 @@ with $$d_{i}$$ the number of events at $$t_{i}$$ and $$n_{i}$$ the total individ
 
 ### Cumulative incidence
 
-Probability that a particular event has ocured before a given time.
+Probability that a particular event has occurred before a given time.
 \\[CI(t)= \int_{0}^{t}{f(s)ds} = \int_{0}^{t}{S(s)\lambda(s)ds} \;,\;t\geq 0 \\]
 
 
@@ -142,7 +142,7 @@ We can compare this model with the one parametrically estimated with the [Cox mo
 
 ### Old age mortaility
 
-In this example we will study the data *oldmort*. The data consists of old age life histories from 1 January 1860 to 31 december 1880, 21 years. Only (parts of) life histories above age 60 is considered.
+In this example we will study the data *oldmort*. The data consists of old age life histories from 1 January 1860 to 31 December 1880, 21 years. Only (parts of) life histories above age 60 is considered.
 
 ```R
 > require(eha)
