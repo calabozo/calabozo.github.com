@@ -828,7 +828,7 @@ It can be done in R with the [Barnard](https://cran.r-project.org/web/packages/B
 
 ## Log-rank test
 
-In statistics, the [log-rank](https://en.wikipedia.org/wiki/Log-rank_test) test is a hypothesis test to compare the survival distributions of two samples. It is a nonparametric test and appropriate to use when the data are right skewed and censored (technically, the censoring must be non-informative).
+In statistics, the [log-rank](https://en.wikipedia.org/wiki/Log-rank_test) test is a hypothesis test to compare the survival distributions of two samples. It is a nonparametric test and appropriate to use when the data is right skewed and censored (technically, the censoring must be non-informative).
 
 Tests if there is a difference between two or more survival curves. More information about survival analysis can be found [here](/statistics/survival/).
 

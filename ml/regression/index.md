@@ -189,3 +189,22 @@ https://en.wikipedia.org/wiki/Generalized_linear_model
 
 In statistics, stepwise regression is a method of fitting regression models in which the choice of predictive variables is carried out by an automatic procedure.[1][2][3][4] In each step, a variable is considered for addition to or subtraction from the set of explanatory variables based on some prespecified criterion. Usually, this takes the form of a sequence of F-tests or t-tests, but other techniques are possible, such as adjusted R2, Akaike information criterion, Bayesian information criterion, Mallows's Cp, PRESS, or false discovery rate.
 https://en.wikipedia.org/wiki/Stepwise_regression
+
+
+# Generalized additive model
+
+In statistics, a generalized additive model (GAM) is a generalized linear model in which the linear predictor depends linearly on unknown smooth functions of some predictor variables, and interest focuses on inference about these smooth functions. GAMs were originally developed by Trevor Hastie and Robert Tibshirani[1] to blend properties of generalized linear models with additive models.
+
+https://en.wikipedia.org/wiki/Generalized_additive_model
+Routines for generalized additive modelling under shape
+constraints on the component functions of the linear predictor
+(Pya and Wood, 2015) <doi:10.1007/s11222-013-9448-7>.
+Models can contain multiple shape constrained (univariate
+and/or bivariate) and unconstrained terms. The routines of gam()
+in package 'mgcv' are used for setting up the model matrix,
+printing and plotting the results.  Penalized likelihood
+maximization based on Newton-Raphson method is used to fit a
+model with multiple smoothing parameter selection by GCV or
+
+https://cran.r-project.org/web/packages/scam/scam.pdf
+
